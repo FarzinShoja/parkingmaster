@@ -1,14 +1,16 @@
-//This Simple Code 
 
 
+const mysqlconfig = require('./config.json');
 const exp = require('express');
 const app = exp();
-const bodyParser = require('body-parser')
-app.use(bodyParser.urlencoded({extended: false}))
+const mySql = require('mysql');
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser());
 
 const hostname = '127.0.0.1';
 const port = 3000;
+
 
 
 //This example of Get 
@@ -26,7 +28,7 @@ app.post("/createName", (req, res, err) => {
     console.log(req.body.name)
     const n = req.body.name;
     res.send("Hello" + " " + n);
-    res.end()
+    res.end();
 });
 
 
@@ -36,7 +38,32 @@ app.listen(port, hostname, () => {
 
 })
 
+//Create Simple Pull Request From The Database
+app.get("/tags", (req, res) => {
+    const connection = getConnection();
+    const queryString = "SELECT * FROM Student";
+    
+    connection.query(queryString, (err, rows) => {
+        if(err){
+            console.log(err + ": Faild to run query");
+            res.statusCode = 500;
+            return;
+        }
+        else {
+            // res.send("hfhfhf");
+            res.json(rows);
+        }
+            res.end();
+    });
+})
 
 
+//mySql Connection Pool 
+const mySqlConnection = mySql.createPool(
+    mysqlconfig
+   );
 
-// Nathan was HERE!!!!!!
+function getConnection(){
+    return mySqlConnection;
+};
+
