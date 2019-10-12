@@ -107,8 +107,8 @@ app.post("/addtagdata" , (req, res) => {
     connection.query(queryString, [id], (err, results) => {
         
         if(err){
-            console.log("Failed to connect to the server"); 
-            //need to look for proper http error code
+            console.log("Failed to connect to the Data Base"); 
+            //need to look for proper error code
             return;
         } else {
             if(results[0].count > 0){
@@ -124,9 +124,9 @@ app.post("/addtagdata" , (req, res) => {
                         //need to look for proper error code
                         return;
                     } else {
-                        console.log("The Data " + id + " :" + name + " has been added to the table");
+                        console.log("The Data " + id + ":" + name + " has been added to the table");
                         res.json({
-                            "message": "The Data " + id + " :" + name + " has been added to the table"
+                            "message": "The Data " + id + ":" + name + " has been added to the table"
                         });
                         res.end();
                     }
