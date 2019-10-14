@@ -9,7 +9,11 @@
 </p>
 
 
-# parkingmaster
+# Parking Master
 RFID Parking Tags
 
-# Farzin
+## Other Comunication Tools
+[Discord](https://discordapp.com)
+
+
+## Quick Setup Instructions
