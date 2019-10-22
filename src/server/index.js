@@ -35,10 +35,10 @@ app.listen(port, hostname, () => {
 });
 
 //Create Simple fetch Request From The Database
-app.get("/tags", (req, res) => {
+app.get("/Vehicles", (req, res) => {
   //<---------------------- Edit listenning tag
   const connection = getConnection();
-  const queryString = "SELECT * FROM tags";
+  const queryString = "SELECT * FROM Vehicles";
 
   connection.query(queryString, (err, rows) => {
     if (err) {
@@ -53,22 +53,22 @@ app.get("/tags", (req, res) => {
   });
 });
 
-//Create Simple fetch to get single tag id
-app.get("/tag/:tagid", (req, res) => {
+//Create Simple fetch to get single tag number
+app.get("/Vehicles/:TagNum", (req, res) => {
   const connection = getConnection();
   //Attaching
-  const id = req.params.tagid;
+  const id = req.params.TagNum;
 
-  const queryString = "SELECT * FROM tags WHERE tagid = ? ";
+  const queryString = "SELECT * FROM Vehicles WHERE TagNum = ? ";
 
   connection.query(queryString, [id], (err, rows) => {
     if (err) {
-      console.log(err + ":Faild to get the Tag ID");
+      console.log(err + ":Faild to get the Tag Number");
       //look for proper code error
       res.statusCode = 500;
       return;
     } else if (rows.length < 1) {
-      console.log("the Tag ID oesn't exist");
+      console.log("the Tag Number doesn't exist");
       res.json({
         message: "The Tag: " + id + " does not exist in our database"
       });
@@ -77,7 +77,7 @@ app.get("/tag/:tagid", (req, res) => {
       const tagdata = rows.map(row => {
         //convert tags table to json file
         return {
-          tagid: row.tagid,
+          tagid: row.TagNum,
           name: row.name
         };
       });
@@ -87,13 +87,13 @@ app.get("/tag/:tagid", (req, res) => {
   });
 });
 
-//Create new tag data
+//Create new Vehicle
 app.post("/addtagdata", (req, res) => {
-  const id = req.body.tagid;
+  const id = req.body.TagID;
   const name = req.body.name;
 
   const connection = getConnection();
-  const queryString = "SELECT COUNT(*) AS count FROM tags WHERE tagid = ?";
+  const queryString = "SELECT COUNT(*) AS count FROM Vehicles WHERE TagID = ?";
 
   connection.query(queryString, [id], (err, results) => {
     if (err) {
@@ -134,7 +134,7 @@ app.post("/addtagdata", (req, res) => {
 app.post("/logTagData/:systemID", (req, res) => {
   const sysID = parseInt(req.params.systemID);
   if (validSystems.includes(sysID)) {
-    const tagID = req.body.tagNumber;
+    const tagID = req.body.TagNum;
 
     const queryString = "SELECT * FROM RegData WHERE tagnumber = ? ";
     const connection = getConnection();
@@ -159,9 +159,9 @@ app.post("/logTagData/:systemID", (req, res) => {
         // Grabs the data needed from the database to store locally
         const regData = rows.map(row => {
           return {
-            tag_number: row.tagnumber,
-            student_number: row.student_number,
-            tag_status: row.tag_status
+            tag_number: row.TagNum,
+            student_number: row.studentID,
+            tag_status: row.TagStatus
           };
         });
 
@@ -172,9 +172,9 @@ app.post("/logTagData/:systemID", (req, res) => {
           [
             dt,
             location,
-            parseInt(regData[0].tag_number),
-            parseInt(regData[0].student_number),
-            parseInt(regData[0].tag_status)
+            parseInt(regData[0].TagNum),
+            parseInt(regData[0].studentID),
+            parseInt(regData[0].TagStatus)
           ],
           err => {
             if (err) {
