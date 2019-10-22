@@ -94,9 +94,9 @@ app.post("/createstudent", (req, res) => {
   const name = req.body.FirstName;
   const lastname = req.body.LastName;
 
-
   const connection = getConnection();
-  const queryString = "SELECT COUNT(*) AS count FROM Students WHERE StudentID = ?";
+  const queryString =
+    "SELECT COUNT(*) AS count FROM Students WHERE StudentID = ?";
 
   connection.query(queryString, [id], (err, results) => {
     if (err) {
@@ -105,12 +105,18 @@ app.post("/createstudent", (req, res) => {
       return;
     } else {
       if (results[0].count > 0) {
-        console.log("Student ID  already exist, try using a different Student ID");
+        console.log(
+          "Student ID  already exist, try using a different Student ID"
+        );
         res.json({
-          message: "Student ID " + id + " already exist, try using a different Student ID"
+          message:
+            "Student ID " +
+            id +
+            " already exist, try using a different Student ID"
         });
       } else {
-        const queryString2 = "INSERT INTO Students (StudentID,FirstName,LastName) VALUES(?,?,?)";
+        const queryString2 =
+          "INSERT INTO Students (StudentID,FirstName,LastName) VALUES(?,?,?)";
         connection.query(queryString2, [id, name, lastname], (err, results) => {
           if (err) {
             console.log("Failed second query" + err);
@@ -118,13 +124,23 @@ app.post("/createstudent", (req, res) => {
             return;
           } else {
             console.log(
-              "The Student With ID: " + id + " & First Name: " + name + " & Last Name of: " + lastname 
-              + " has been added to Students the table"
+              "The Student With ID: " +
+                id +
+                " & First Name: " +
+                name +
+                " & Last Name of: " +
+                lastname +
+                " has been added to Students the table"
             );
             res.json({
               message:
-              "The Student With ID: " + id + " & First Name: " + name + " & Last Name of: " + lastname 
-              + " has been added to Students table"
+                "The Student With ID: " +
+                id +
+                " & First Name: " +
+                name +
+                " & Last Name of: " +
+                lastname +
+                " has been added to Students table"
             });
             res.end();
           }
@@ -133,7 +149,6 @@ app.post("/createstudent", (req, res) => {
     }
   });
 });
-
 
 //Create new Vehicle
 //This Method Requires Edit 10/22/2019
@@ -183,9 +198,9 @@ app.post("/addtagdata", (req, res) => {
 app.post("/logTagData/:systemID", (req, res) => {
   const sysID = parseInt(req.params.systemID);
   if (validSystems.includes(sysID)) {
-    const tagID = req.body.TagNum;
+    const tagID = req.body.scannedTag; // <------------ When you send body JSON it needs to send this...
 
-    const queryString = "SELECT * FROM RegData WHERE tagnumber = ? ";
+    const queryString = "SELECT * FROM Vehicles WHERE TagNum = ? ";
     const connection = getConnection();
 
     connection.query(queryString, [tagID], (err, rows) => {
@@ -206,24 +221,24 @@ app.post("/logTagData/:systemID", (req, res) => {
         dt.toISOString().split("T")[0] + " " + dt.toTimeString().split(" ")[0];
 
         // Grabs the data needed from the database to store locally
-        const regData = rows.map(row => {
+        const dataHolder = rows.map(row => {
           return {
-            tag_number: row.TagNum,
-            student_number: row.studentID,
+            v_ID: row.VehicleID,
+            student_number: row.StudentID,
             tag_status: row.TagStatus
           };
         });
 
         const queryString2 =
-          "INSERT INTO logData (date_time,location,tag_num,student_num,reg_status) VALUES(?,?,?,?,?)";
+          "INSERT INTO DataLog (VehicleID,StudentID,Location,DateLog,TagStatus) VALUES(?,?,?,?,?)";
         connection.query(
           queryString2,
           [
-            dt,
+            parseInt(dataHolder[0].v_ID),
+            parseInt(dataHolder[0].student_number),
             location,
-            parseInt(regData[0].TagNum),
-            parseInt(regData[0].studentID),
-            parseInt(regData[0].TagStatus)
+            dt,
+            parseInt(dataHolder[0].tag_status)
           ],
           err => {
             if (err) {
