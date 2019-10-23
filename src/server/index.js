@@ -1,3 +1,8 @@
+
+//============================================
+//================================Lazy=============
+//=====================================Coders======================
+
 const mysqlconfig = require("./config.json");
 const exp = require("express");
 const app = exp();
@@ -88,7 +93,6 @@ app.get("/Vehicles/:TagNum", (req, res) => {
 });
 //                                     Insert Student Data
 //=============================================================================================
-//
 app.post("/createstudent", (req, res) => {
   const id = req.body.StudentID;
   const name = req.body.FirstName;
@@ -150,47 +154,72 @@ app.post("/createstudent", (req, res) => {
   });
 });
 
-//Create new Vehicle
+//                                     Insert Vehicle Data
+//=============================================================================================
 //This Method Requires Edit 10/22/2019
-app.post("/addtagdata", (req, res) => {
-  const id = req.body.TagID;
-  const name = req.body.name;
+app.post("/createvehicle", (req, res) => {
+  const id = req.body.StudentID;
+  const make = req.body.Make;
+  const model = req.body.Model;
+  const year = req.body.Year;
+  const licplate = req.body.LicencePlate;
+  const tagnum = req.body.TagNum;
+  const tagstatus = req.body.TagStatus;
 
   const connection = getConnection();
-  const queryString = "SELECT COUNT(*) AS count FROM Vehicles WHERE TagID = ?";
+  //=== Verify if the Student ID exist before adding data to Vehicle Table
+  const queryString = "SELECT * FROM Vehicles WHERE StudentID = ?";
 
-  connection.query(queryString, [id], (err, results) => {
-    if (err) {
-      console.log("Failed to connect to the Data Base");
-      //need to look for proper error code
+  connection.query(queryString, [id], (err, rows) => {
+    if(err) {
+      console.log("Failed at query One connectivity: " + err);
+      res.statusCode = 500;
+      return;
+    } else if (rows.length < 1){
+      console.log("The Student ID : " + id + " Does Not exist in the system");
+      res.json({
+              message: "This Student ID " + id + " does not exist"
+            });
       return;
     } else {
-      if (results[0].count > 0) {
-        console.log("Tagid already exist, try a different tag id");
-        res.json({
-          message: "Tag id " + id + " already exist, try a different tag id"
-        });
-      } else {
-        const queryString2 = "INSERT INTO tags (tagid,name) VALUES(?,?)";
-        connection.query(queryString2, [id, name], (err, results) => {
-          if (err) {
-            console.log("Failed second query" + err);
-            //need to look for proper error code
-            return;
-          } else {
-            console.log(
-              "The Data " + id + ":" + name + " has been added to the table"
+      const queryString2 = "INSERT INTO Vehicles (StudentID,Make,Model,Year,LicencePlate,TagNum,TagStatus) VALUES(?,?,?,?,?,?,?)";
+      connection.query(queryString2, [id, make, model, year, licplate, tagnum, tagstatus], (err, results) => {
+        if (err) {
+          console.log(
+            "Failed The Second query" + err
+            );
+          res.json({
+            message:
+            "Failed The Second query" + err
+          });
+          return;
+        } else {
+          console.log(
+              "The Data " 
+              + id + " " 
+              + make + " "
+              + model + " " 
+              + year + " " 
+              + licplate + " " 
+              + tagnum + " " 
+              + tagstatus +" has been added to the vehicle table"
             );
             res.json({
               message:
-                "The Data " + id + ":" + name + " has been added to the table"
+              "The Data " 
+              + id + " " 
+              + make + " "
+              + model + " " 
+              + year + " " 
+              + licplate + " " 
+              + tagnum + " " 
+              + tagstatus +" has been added to the vehicle table"
             });
             res.end();
-          }
-        });
-      }
-    }
-  });
+        }
+      })
+    };
+  })
 });
 
 //                                        POST REQUEST TO STORE DATA TO DATABASE FOR RECORD KEEPING
