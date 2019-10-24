@@ -236,7 +236,7 @@ app.post("/createvehicle", (req, res) => {
 
 //                                        POST REQUEST TO STORE DATA TO DATABASE FOR RECORD KEEPING
 //===========================================================================================================================
-app.post("/logTagData/:scannedTagID", (req, res) => {
+app.get("/logTagData/:scannedTagID", (req, res) => {
   const tagID = req.params.scannedTagID; // <------------ When you send body JSON it needs to send this...
 
   const queryString = "SELECT * FROM Vehicles WHERE TagNum = ? ";
