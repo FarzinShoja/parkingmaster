@@ -14,10 +14,6 @@ app.use(bodyParser());
 const hostname = "";
 const port = 3000;
 
-//======================================================================
-const validSystems = [1234, 5678, 9999];
-//======================================================================
-
 //This example of Get
 app.get("/hello", (req, res) => {
   res.statusCode = 200;
@@ -171,122 +167,130 @@ app.post("/createvehicle", (req, res) => {
   const queryString = "SELECT * FROM Vehicles WHERE StudentID = ?";
 
   connection.query(queryString, [id], (err, rows) => {
-    if(err) {
+    if (err) {
       console.log("Failed at query One connectivity: " + err);
       res.statusCode = 500;
       return;
-    } else if (rows.length < 1){
+    } else if (rows.length < 1) {
       console.log("The Student ID : " + id + " Does Not exist in the system");
       res.json({
-              message: "This Student ID " + id + " does not exist"
-            });
+        message: "This Student ID " + id + " does not exist"
+      });
       return;
     } else {
-      const queryString2 = "INSERT INTO Vehicles (StudentID,Make,Model,Year,LicencePlate,TagNum,TagStatus) VALUES(?,?,?,?,?,?,?)";
-      connection.query(queryString2, [id, make, model, year, licplate, tagnum, tagstatus], (err, results) => {
-        if (err) {
-          console.log(
-            "Failed The Second query" + err
-            );
-          res.json({
-            message:
-            "Failed The Second query" + err
-          });
-          return;
-        } else {
-          console.log(
-              "The Data " 
-              + id + " " 
-              + make + " "
-              + model + " " 
-              + year + " " 
-              + licplate + " " 
-              + tagnum + " " 
-              + tagstatus +" has been added to the vehicle table"
+      const queryString2 =
+        "INSERT INTO Vehicles (StudentID,Make,Model,Year,LicencePlate,TagNum,TagStatus) VALUES(?,?,?,?,?,?,?)";
+      connection.query(
+        queryString2,
+        [id, make, model, year, licplate, tagnum, tagstatus],
+        (err, results) => {
+          if (err) {
+            console.log("Failed The Second query" + err);
+            res.json({
+              message: "Failed The Second query" + err
+            });
+            return;
+          } else {
+            console.log(
+              "The Data " +
+                id +
+                " " +
+                make +
+                " " +
+                model +
+                " " +
+                year +
+                " " +
+                licplate +
+                " " +
+                tagnum +
+                " " +
+                tagstatus +
+                " has been added to the vehicle table"
             );
             res.json({
               message:
-              "The Data " 
-              + id + " " 
-              + make + " "
-              + model + " " 
-              + year + " " 
-              + licplate + " " 
-              + tagnum + " " 
-              + tagstatus +" has been added to the vehicle table"
+                "The Data " +
+                id +
+                " " +
+                make +
+                " " +
+                model +
+                " " +
+                year +
+                " " +
+                licplate +
+                " " +
+                tagnum +
+                " " +
+                tagstatus +
+                " has been added to the vehicle table"
             });
             res.end();
+          }
         }
-      })
-    };
-  })
+      );
+    }
+  });
 });
 
 //                                        POST REQUEST TO STORE DATA TO DATABASE FOR RECORD KEEPING
 //===========================================================================================================================
-app.post("/logTagData/:systemID", (req, res) => {
-  const sysID = parseInt(req.params.systemID);
-  if (validSystems.includes(sysID)) {
-    const tagID = req.body.scannedTag; // <------------ When you send body JSON it needs to send this...
+app.get("/logTagData/:scannedTagID", (req, res) => {
+  const tagID = req.params.scannedTagID; // <------------ When you send body JSON it needs to send this...
 
-    const queryString = "SELECT * FROM Vehicles WHERE TagNum = ? ";
-    const connection = getConnection();
+  const queryString = "SELECT * FROM Vehicles WHERE TagNum = ? ";
+  const connection = getConnection();
 
-    connection.query(queryString, [tagID], (err, rows) => {
-      if (err) {
-        console.log("Failed at query #1 connectivity: " + err);
-        res.statusCode = 500;
-        return;
-      } else if (rows.length < 1) {
-        console.log("The Tag ID :" + tagID + " does NOT exist in the system");
-        return;
-      } else {
-        // Location of the scan ....
-        // This will be on the RaspberryPI code that calls this request or is attached to the verified system ID that can make the calls
-        const location = "Parking Deck";
+  connection.query(queryString, [tagID], (err, rows) => {
+    if (err) {
+      console.log("Failed at query #1 connectivity: " + err);
+      res.statusCode = 500;
+      return;
+    } else if (rows.length < 1) {
+      console.log("The Tag ID :" + tagID + " does NOT exist in the system");
+      return;
+    } else {
+      // Location of the scan ....
+      // This will be on the RaspberryPI code that calls this request or is attached to the verified system ID that can make the calls
+      const location = "Parking Deck";
 
-        //  Current Date and Formatting it
-        let dt = new Date();
-        dt.toISOString().split("T")[0] + " " + dt.toTimeString().split(" ")[0];
+      //  Current Date and Formatting it
+      let dt = new Date();
+      dt.toISOString().split("T")[0] + " " + dt.toTimeString().split(" ")[0];
 
-        // Grabs the data needed from the database to store locally
-        const dataHolder = rows.map(row => {
-          return {
-            v_ID: row.VehicleID,
-            student_number: row.StudentID,
-            tag_status: row.TagStatus
-          };
-        });
+      // Grabs the data needed from the database to store locally
+      const dataHolder = rows.map(row => {
+        return {
+          v_ID: row.VehicleID,
+          student_number: row.StudentID,
+          tag_status: row.TagStatus
+        };
+      });
 
-        const queryString2 =
-          "INSERT INTO DataLog (VehicleID,StudentID,Location,DateLog,TagStatus) VALUES(?,?,?,?,?)";
-        connection.query(
-          queryString2,
-          [
-            parseInt(dataHolder[0].v_ID),
-            parseInt(dataHolder[0].student_number),
-            location,
-            dt,
-            parseInt(dataHolder[0].tag_status)
-          ],
-          err => {
-            if (err) {
-              console.log("Failed at #2 query: " + err);
-              return;
-            } else {
-              console.log("Car scan was logged");
-            }
+      const queryString2 =
+        "INSERT INTO DataLog (VehicleID,StudentID,Location,DateLog,TagStatus) VALUES(?,?,?,?,?)";
+      connection.query(
+        queryString2,
+        [
+          parseInt(dataHolder[0].v_ID),
+          parseInt(dataHolder[0].student_number),
+          location,
+          dt,
+          parseInt(dataHolder[0].tag_status)
+        ],
+        err => {
+          if (err) {
+            console.log("Failed at #2 query: " + err);
+            return;
+          } else {
+            console.log("Car scan was logged");
           }
-        );
-      }
-    });
-    res.end();
-  } else {
-    console.log(
-      "System with ID :" + req.params.systemID + " is NOT a valid system."
-    );
-    res.end();
-  }
+        }
+      );
+    }
+  });
+  res.end();
 });
 
 //===========================================================================================================================
