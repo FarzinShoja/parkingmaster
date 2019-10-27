@@ -14,6 +14,16 @@ app.use(bodyParser());
 const hostname = "";
 const port = 3000;
 
+// FIX for the CORS ERROR problem....
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
 //This example of Get
 app.get("/hello", (req, res) => {
   res.statusCode = 200;

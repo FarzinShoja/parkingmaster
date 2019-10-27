@@ -8,8 +8,22 @@ body {
 
 .data1 {
   color: black;
+  display: flexbox;
   background-color: white;
-  width: 500px;
+  width: 70%;
   height: 300px;
   margin: auto;
+  text-align: center;
+}
+.data1 table {
+  align-content: center;
+  margin: auto;
+  width: 99%;
+  overflow: scroll;
+  padding: 15px;
+}
+
+.data1 table th {
+  border-bottom: 3px solid black;
+  font-style: italic;
 }
