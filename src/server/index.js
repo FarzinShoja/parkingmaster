@@ -85,15 +85,7 @@ app.get("/Vehicles/:TagNum", (req, res) => {
       });
       return;
     } else {
-      const tagdata = rows.map(row => {
-        //convert tags table to json file
-        return {
-          tagid: row.TagNum,
-          studentid: row.StudentID
-        };
-      });
-
-      res.json(tagdata);
+      res.json(rows);
     }
   });
 });
