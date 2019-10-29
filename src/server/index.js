@@ -87,7 +87,7 @@ app.get("/Vehicles", (req, res) => {
 });
 
 //Create Simple fetch to get single tag number
-app.get("/Vehicles/:TagNum", (req, res) => {
+app.get("/Vehicles/ByTagNum/:TagNum", (req, res) => {
   const connection = getConnection();
   //Attaching
   const id = req.params.TagNum;
@@ -112,6 +112,39 @@ app.get("/Vehicles/:TagNum", (req, res) => {
     }
   });
 });
+
+
+//                          Create Simple fetch to get vehicle information
+//=================================================================================================
+app.get("/Vehicles/ByStudentID/:StudentID", (req, res) => {
+  const connection = getConnection();
+  //Attaching
+  const id = req.params.StudentID;
+
+  const queryString = "SELECT * FROM Vehicles WHERE StudentID = ? ";
+
+  connection.query(queryString, [id], (err, rows) => {
+    if (err) {
+      console.log(err + ":Faild to connect to database");
+      //look for proper code error
+      res.statusCode = 500;
+      return;
+    } else if (rows.length < 1) {
+      console.log("the Student ID: " + id + "doesn't exist");
+      res.statusCode = 404;
+      res.json({
+        message: "The Student ID: " + id + " does not exist in our database"
+      });
+      return;
+    } else {
+      res.json(rows);
+    }
+  });
+});
+
+
+
+
 
 //                                     Insert Student Data
 //=============================================================================================

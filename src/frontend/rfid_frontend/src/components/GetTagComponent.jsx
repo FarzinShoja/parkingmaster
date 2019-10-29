@@ -69,7 +69,7 @@ class GetTag extends Component {
         </form>
         <button
           onClick={e => {
-            fetch("http://localhost:3000/Vehicles/" + this.state.userinput, {
+            fetch("http://localhost:3000/Vehicles/ByTagNum/" + this.state.userinput, {
               method: "GET"
             })
               .then(res => res.json())
