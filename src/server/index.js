@@ -80,6 +80,7 @@ app.get("/Vehicles/:TagNum", (req, res) => {
       return;
     } else if (rows.length < 1) {
       console.log("the Tag Number doesn't exist");
+      res.statusCode = 404;
       res.json({
         message: "The Tag: " + id + " does not exist in our database"
       });
