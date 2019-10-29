@@ -340,6 +340,90 @@ app.post("/createvehicle", (req, res) => {
   });
 });
 
+
+//                                     Update Vehicle Data
+//=============================================================================================
+app.put("/updatevehicle", (req, res) => {
+  const vid = req.body.VehicleID;
+  const make = req.body.Make;
+  const model = req.body.Model;
+  const year = req.body.Year;
+  const licplate = req.body.LicencePlate;
+  const tagnum = req.body.TagNum;
+  const tagstatus = req.body.TagStatus;
+
+  const connection = getConnection();
+  const queryString = "SELECT COUNT(*) AS count FROM Vehicles WHERE VehicleID = ?";
+
+  connection.query(queryString, [vid], (err, results) => {
+    if (err) {
+      console.log("Failed to connect to the Data Base");
+      //need to look for proper error code
+      return;
+    } else {
+      if (results[0].count < 1) {
+        console.log(
+          "This Vehicle ID: " + 
+          vid + 
+          " Does not exist"
+        );
+        res.json({
+          message:
+            "This Vehicle ID: " +
+            vid +
+            " Does not exist"
+        });
+      } else {
+        const queryString2 = "UPDATE Vehicles SET Make=?, Model=?, Year=?, LicencePlate=?, TagNum=?, TagStatus=? WHERE VehicleID= ?";
+        connection.query(queryString2, [make, model, year, licplate, tagnum, tagstatus, vid], (err, results) => {
+          if (err) {
+            console.log("Failed second query" + err);
+            //need to look for proper error code
+            return;
+          } else {
+            console.log(
+              "The Data " +
+              vid +
+              " " +
+              make +
+              " " +
+              model +
+              " " +
+              year +
+              " " +
+              licplate +
+              " " +
+              tagnum +
+              " " +
+              tagstatus +
+              " has been Updated it."
+            );
+            res.json({
+              message:
+              "The Data " +
+              vid +
+              " " +
+              make +
+              " " +
+              model +
+              " " +
+              year +
+              " " +
+              licplate +
+              " " +
+              tagnum +
+              " " +
+              tagstatus +
+              " has been updated it."
+            });
+            res.end();
+          }
+        });
+      }
+    }
+  });
+});
+
 //                                        POST REQUEST TO STORE DATA TO DATABASE FOR RECORD KEEPING
 //===========================================================================================================================
 app.get("/logTagData/:scannedTagID", (req, res) => {
