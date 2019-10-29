@@ -1,8 +1,8 @@
-//========================================================================================================================================//
+//=============================================================
 //============================================
 //================================Lazy=============
-//=====================================Coders======================
-
+//=====================================Coders=========
+//============================================================== 
 const mysqlconfig = require("./config.json");
 const exp = require("express");
 const app = exp();
@@ -44,6 +44,28 @@ app.post("/createName", (req, res, err) => {
 app.listen(port, hostname, () => {
   console.log("Server started on port " + port);
 });
+
+
+//Create Simple fetch Request From The Database
+app.get("/students", (req, res) => {
+  //<---------------------- Edit listenning tag
+  const connection = getConnection();
+  const queryString = "SELECT * FROM Students";
+
+  connection.query(queryString, (err, rows) => {
+    if (err) {
+      console.log(err + ": Faild to run query");
+      //look for proper http code error
+      res.statusCode = 500;
+      return;
+    } else {
+      res.json(rows);
+    }
+    res.end();
+  });
+});
+
+
 
 //Create Simple fetch Request From The Database
 app.get("/Vehicles", (req, res) => {
@@ -123,7 +145,11 @@ app.post("/createstudent", (req, res) => {
         connection.query(queryString2, [id, name, lastname], (err, results) => {
           if (err) {
             console.log("Failed second query" + err);
-            //need to look for proper error code
+            res.sendStatus = 500;
+            res.json({
+              message:
+               err
+            })
             return;
           } else {
             console.log(
@@ -153,6 +179,80 @@ app.post("/createstudent", (req, res) => {
   });
 });
 
+//                                     Update Student Data
+//=============================================================================================
+app.put("/updatestudent", (req, res) => {
+
+  const id = req.body.StudentID;
+  const name = req.body.FirstName;
+  const lastname = req.body.LastName;
+  const vehicleid = req.body.VehicleID;
+
+  const connection = getConnection();
+  const queryString = "SELECT COUNT(*) AS count FROM Students WHERE StudentID = ?";
+
+  connection.query(queryString, [id], (err, results) => {
+    if (err) {
+      console.log("Failed to connect to the Data Base");
+      //need to look for proper error code
+      return;
+    } else {
+      if (results[0].count < 1) {
+        console.log(
+          "This Student ID " + id + " Does not exist"
+        );
+        res.json({
+          message:
+            "This Student ID " +
+            id +
+            " Does not exist"
+        });
+      } else {
+        const queryString2 = "UPDATE Students SET FirstName=?, LastName=?, VehicleID=? WHERE StudentID = ?";
+        connection.query(queryString2, [name, lastname, vehicleid, id], (err, results) => {
+          if (err) {
+            console.log("Failed second query" + err);
+            //need to look for proper error code
+            return;
+          } else {
+            console.log(
+              "The Student With ID: " +
+                id +
+                " & First Name: " +
+                name +
+                " & Last Name of: " +
+                lastname +
+                " : " +
+                vehicleid + 
+                " has been updated it to Students the table"
+            );
+            res.json({
+              message:
+                "The Student With ID: " +
+                id +
+                " & First Name: " +
+                name +
+                " & Last Name of: " +
+                lastname +
+                " : " +
+                vehicleid + 
+                " has been updated it to Students the table"
+            });
+            res.end();
+          }
+        });
+      }
+    }
+  });
+});
+
+
+//                                     Delete Student 
+//============================================================================================
+
+
+
+
 //                                     Insert Vehicle Data
 //=============================================================================================
 app.post("/createvehicle", (req, res) => {
@@ -172,6 +272,10 @@ app.post("/createvehicle", (req, res) => {
     if (err) {
       console.log("Failed at query One connectivity: " + err);
       res.statusCode = 500;
+      res.json({
+        message:
+         err
+      })
       return;
     } else if (rows.length < 1) {
       console.log("The Student ID : " + id + " Does Not exist in the system");
