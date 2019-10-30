@@ -142,10 +142,6 @@ app.get("/Vehicles/ByStudentID/:StudentID", (req, res) => {
   });
 });
 
-
-
-
-
 //                                     Insert Student Data
 //=============================================================================================
 app.post("/createstudent", (req, res) => {
@@ -281,8 +277,56 @@ app.put("/updatestudent", (req, res) => {
 });
 
 
-//                                     Delete Student 
+//                                     Delete Student Data 
 //============================================================================================
+app.delete("/delete/studentdata/:StudentID", (req, res) => {
+  const id = req.body.StudentID;
+  const connection = getConnection();
+
+  const queryString = "SELECT COUNT(*) AS count FROM Students WHERE StudentID = ?";
+
+  connection.query(queryString, [id], (err, results) => {
+    if (err) {
+      console.log("Faild to the quary " + err);
+      res.sendStatus = 500;
+      return;
+    } else {
+      if (results[0].count < 1) {
+        console.log(
+          "This Student ID " + id + " Does not exist"
+        );
+        res.json({
+          message:
+            "This Student ID " +
+            id +
+            " Does not exist"
+        });
+      } else {
+        const queryString2 = "DELETE FROM Students WHERE StudentID = ?";
+        connection.query(queryString2, [id], (err, fields) => {
+          if (err) {
+            console.log("Failed second query" + err);
+            res.sendStatus = 500;
+            return;
+          } else {
+            console.log(
+              "The Student With ID: " +
+              id +
+              " Has been Delete It."
+            );
+            res.json({
+              message:
+                "The Student With ID: " +
+                id +
+                " Has been Delete It."
+            });
+            res.end();
+          }
+        });
+      }
+    }
+  });
+});
 
 
 
@@ -311,9 +355,9 @@ app.post("/createvehicle", (req, res) => {
       })
       return;
     } else if (rows.length < 1) {
-      console.log("The Student ID : " + id + " Does Not exist in the system");
+      console.log("The Student ID : " + id + " Does Not exist in the system" + err);
       res.json({
-        message: "This Student ID " + id + " does not exist"
+        message: "This Student ID " + id + " does not exist "
       });
       return;
     } else {
@@ -391,7 +435,7 @@ app.put("/updatevehicle", (req, res) => {
   connection.query(queryString, [vid], (err, results) => {
     if (err) {
       console.log("Failed to connect to the Data Base");
-      //need to look for proper error code
+      res.statusCode = 500;
       return;
     } else {
       if (results[0].count < 1) {
@@ -411,7 +455,7 @@ app.put("/updatevehicle", (req, res) => {
         connection.query(queryString2, [make, model, year, licplate, tagnum, tagstatus, vid], (err, results) => {
           if (err) {
             console.log("Failed second query" + err);
-            //need to look for proper error code
+            res.statusCode = 500;
             return;
           } else {
             console.log(
@@ -456,6 +500,58 @@ app.put("/updatevehicle", (req, res) => {
     }
   });
 });
+
+//                                     Delete Vehicle Data 
+//============================================================================================
+app.delete("/delete/vehicledata/:VehicleID", (req, res) => {
+  const id = req.body.VehicleID;
+  const connection = getConnection();
+
+  const queryString = "SELECT COUNT(*) AS count FROM Vehicles WHERE VehicleID = ?";
+
+  connection.query(queryString, [id], (err, results) => {
+    if (err) {
+      console.log("Faild to the quary " + err);
+      res.statusCode = 500;
+      return;
+    } else {
+      if (results[0].count < 1) {
+        console.log(
+          "This Student ID " + id + " Does not exist"
+        );
+        res.json({
+          message:
+            "This Student ID " +
+            id +
+            " Does not exist"
+        });
+      } else {
+        const queryString2 = "DELETE FROM Vehicles WHERE VehicleID = ?";
+        connection.query(queryString2, [id], (err, fields) => {
+          if (err) {
+            console.log("Failed second query" + err);
+            res.sendStatus = 500;
+            return;
+          } else {
+            console.log(
+              "The Vehicle With ID: " +
+              id +
+              " Has been Delete It."
+            );
+            res.json({
+              message:
+                "The Vehicle With ID: " +
+                id +
+                " Has been Delete It."
+            });
+            res.end();
+          }
+        });
+      }
+    }
+  });
+});
+
 
 //                                        POST REQUEST TO STORE DATA TO DATABASE FOR RECORD KEEPING
 //===========================================================================================================================
