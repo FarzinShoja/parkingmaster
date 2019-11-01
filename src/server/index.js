@@ -343,7 +343,7 @@ app.post("/createvehicle", (req, res) => {
 
   const connection = getConnection();
   //=== Verify if the Student ID exist before adding data to Vehicle Table
-  const queryString = "SELECT * FROM Vehicles WHERE StudentID = ?";
+  const queryString = "SELECT * FROM Students WHERE StudentID = ?";
 
   connection.query(queryString, [id], (err, rows) => {
     if (err) {
