@@ -4,7 +4,7 @@ export default class CreateVehicleComp extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <h1>Vehicle</h1>
+        <h1>Create New Vehicle</h1>
         Student ID <input type="text" name="SID" />
         <br></br>
         Make <input type="text" name="mk" />
