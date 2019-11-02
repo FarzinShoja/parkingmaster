@@ -1,7 +1,4 @@
-//=============================================================
-//============================================
-//================================Lazy=============
-//=====================================Coders=========
+
 //============================================================== 
 const mysqlconfig = require("./config.json");
 const exp = require("express");
@@ -22,23 +19,6 @@ app.use(function(req, res, next) {
     "Origin, X-Requested-With, Content-Type, Accept"
   );
   next();
-});
-
-//This example of Get
-app.get("/hello", (req, res) => {
-  res.statusCode = 200;
-  console.log("Requesting hello?");
-  res.send("Hello");
-});
-
-//This is Post example
-app.post("/createName", (req, res, err) => {
-  res.statusCode = 200;
-  console.log("Creating Name");
-  console.log(req.body.name);
-  const n = req.body.name;
-  res.send("Hello" + " " + n);
-  res.end();
 });
 
 app.listen(port, hostname, () => {
@@ -65,10 +45,8 @@ app.get("/students", (req, res) => {
   });
 });
 
-
-
 //Create Simple fetch Request From The Database
-app.get("/Vehicles", (req, res) => {
+app.get("/vehicles", (req, res) => {
   //<---------------------- Edit listenning tag
   const connection = getConnection();
   const queryString = "SELECT * FROM Vehicles";
@@ -86,8 +64,27 @@ app.get("/Vehicles", (req, res) => {
   });
 });
 
+//Create Simple fetch Request From The Database
+app.get("/datalog", (req, res) => {
+  //<---------------------- Edit listenning tag
+  const connection = getConnection();
+  const queryString = "SELECT * FROM DataLog";
+
+  connection.query(queryString, (err, rows) => {
+    if (err) {
+      console.log(err + ": Faild to run query");
+      //look for proper http code error
+      res.statusCode = 500;
+      return;
+    } else {
+      res.json(rows);
+    }
+    res.end();
+  });
+});
+
 //Create Simple fetch to get single tag number
-app.get("/Vehicles/ByTagNum/:TagNum", (req, res) => {
+app.get("/vehicles/bytagnum/:TagNum", (req, res) => {
   const connection = getConnection();
   //Attaching
   const id = req.params.TagNum;
@@ -116,7 +113,7 @@ app.get("/Vehicles/ByTagNum/:TagNum", (req, res) => {
 
 //                          Create Simple fetch to get vehicle information
 //=================================================================================================
-app.get("/Vehicles/ByStudentID/:StudentID", (req, res) => {
+app.get("/vehicles/bystudentid/:StudentID", (req, res) => {
   const connection = getConnection();
   //Attaching
   const id = req.params.StudentID;
@@ -280,7 +277,7 @@ app.put("/updatestudent", (req, res) => {
 //                                     Delete Student Data 
 //============================================================================================
 app.delete("/delete/studentdata/:StudentID", (req, res) => {
-  const id = req.body.StudentID;
+  const id = req.params.StudentID;
   const connection = getConnection();
 
   const queryString = "SELECT COUNT(*) AS count FROM Students WHERE StudentID = ?";
@@ -504,7 +501,7 @@ app.put("/updatevehicle", (req, res) => {
 //                                     Delete Vehicle Data 
 //============================================================================================
 app.delete("/delete/vehicledata/:VehicleID", (req, res) => {
-  const id = req.body.VehicleID;
+  const id = req.params.VehicleID;
   const connection = getConnection();
 
   const queryString = "SELECT COUNT(*) AS count FROM Vehicles WHERE VehicleID = ?";
@@ -555,11 +552,16 @@ app.delete("/delete/vehicledata/:VehicleID", (req, res) => {
 
 //                                        POST REQUEST TO STORE DATA TO DATABASE FOR RECORD KEEPING
 //===========================================================================================================================
-app.get("/logTagData/:scannedTagID", (req, res) => {
-  const tagID = req.params.scannedTagID; // <------------ When you send body JSON it needs to send this...
-
+app.get("/logtagdata/:scannedTagID_loc", (req, res) => {
+  var tagid_loc = req.params.scannedTagID_loc;
+  console.log(tagid_loc);
+  var parametersplit = new Array;
+  parametersplit = tagid_loc.split("@");
+  const tagID = parametersplit[0]; // <------------ When you send body JSON it needs to send this...
+  const location = parametersplit[1];
   const queryString = "SELECT * FROM Vehicles WHERE TagNum = ? ";
   const connection = getConnection();
+  
 
   connection.query(queryString, [tagID], (err, rows) => {
     if (err) {
@@ -572,7 +574,7 @@ app.get("/logTagData/:scannedTagID", (req, res) => {
     } else {
       // Location of the scan ....
       // This will be on the RaspberryPI code that calls this request or is attached to the verified system ID that can make the calls
-      const location = "Parking Deck";
+
 
       //  Current Date and Formatting it
       let dt = new Date();
