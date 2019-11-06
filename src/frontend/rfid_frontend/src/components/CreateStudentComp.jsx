@@ -110,13 +110,9 @@ export default class CreateStudentComp extends React.Component {
                 LastName: this.state.Lastname
               })
             })
+              .then(res => res.json())
               .then(result => {
-                return result;
-              })
-              .then(response => {
-                var ms = JSON.stringify(response);
-                console.log(ms);
-                alert(JSON.stringify(response.message));
+                alert(result.message);
               });
           }}
         >
