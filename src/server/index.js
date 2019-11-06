@@ -26,6 +26,21 @@ app.listen(port, hostname, () => {
 });
 
 
+//                  Parking Space Count 
+//===============================================================
+const parkingDeck_Lots = 734;
+
+let parkingDeck_Occupants = new Set();
+
+app.get("/parkingDeck_Counter", (req, res) => {
+  res.json({
+    lots: parkingDeck_Lots - parkingDeck_Occupants.size
+  });
+  res.end();
+});
+
+
+
 //Create Simple fetch Request From The Database
 app.get("/students", (req, res) => {
   //<---------------------- Edit listenning tag
@@ -605,6 +620,14 @@ app.get("/logtagdata/:scannedTagID_loc", (req, res) => {
             console.log("Failed at #2 query: " + err);
             return;
           } else {
+            // this keeps track of the available parking spots
+            if (parkingDeck_Occupants.has(tagID)) {
+              parkingDeck_Occupants.delete(tagID);
+              console.log(parkingDeck_Occupants);
+            } else {
+              parkingDeck_Occupants.add(tagID);
+              console.log(parkingDeck_Occupants);
+            }
             console.log("Car scan was logged");
           }
         }
