@@ -96,7 +96,7 @@ app.get("/students/:sID", (req, res) => {
 
 //          Get Vehicle by ID
 //=================================================
-app.get("/students/:vID", (req, res) => {
+app.get("/vehicles/:vID", (req, res) => {
   const connection = getConnection();
   //Attaching
   const id = req.params.sID;
