@@ -25,7 +25,8 @@ app.listen(port, hostname, () => {
   console.log("Server started on port " + port);
 });
 
-//                  Parking Space Count
+
+//                  Parking Space Count 
 //===============================================================
 const parkingDeck_Lots = 734;
 
@@ -37,6 +38,36 @@ app.get("/parkingDeck_Counter", (req, res) => {
   });
   res.end();
 });
+
+app.get("/spacecounter/:id", (req, res) => {
+  const connection = getConnection();
+  //Attaching
+  const id = req.params.id;
+
+  const queryString = "SELECT * FROM SpaceCounter WHERE ID = ? ";
+
+  connection.query(queryString, [id], (err, rows) => {
+    if (err) {
+      console.log(err + ":Faild to get the ID");
+      //look for proper code error
+      res.statusCode = 500;
+      return;
+    } else if (rows.length < 1) {
+      console.log("the ID doesn't exist");
+      res.statusCode = 404;
+      res.json({
+        message: "The ID: " + id + " does not exist in our database"
+      });
+      return;
+    } else {
+      res.json(rows);
+    }
+  });
+});
+
+
+//=== get student by id 
+
 
 //Create Simple fetch Request From The Database
 app.get("/students", (req, res) => {
@@ -54,32 +85,6 @@ app.get("/students", (req, res) => {
       res.json(rows);
     }
     res.end();
-  });
-});
-
-app.get("/students/:sID", (req, res) => {
-  const connection = getConnection();
-  //Attaching
-  const id = req.params.sID;
-
-  const queryString = "SELECT * FROM Students WHERE StudentID = ? ";
-
-  connection.query(queryString, [id], (err, rows) => {
-    if (err) {
-      console.log(err + ":Faild to get the Student by ID");
-      //look for proper code error
-      res.statusCode = 500;
-      return;
-    } else if (rows.length < 1) {
-      console.log("the Student ID doesn't exist");
-      res.statusCode = 404;
-      res.json({
-        message: "The Student: " + id + " does not exist in our database"
-      });
-      return;
-    } else {
-      res.json(rows);
-    }
   });
 });
 
