@@ -94,6 +94,35 @@ app.get("/students/:sID", (req, res) => {
 });
 
 
+//          Get Vehicle by ID
+//=================================================
+app.get("/students/:vID", (req, res) => {
+  const connection = getConnection();
+  //Attaching
+  const id = req.params.sID;
+
+  const queryString = "SELECT * FROM Vehicle WHERE VehicleID = ? ";
+
+  connection.query(queryString, [id], (err, rows) => {
+    if (err) {
+      console.log(err + ":Faild to get the Student by ID");
+      //look for proper code error
+      res.statusCode = 500;
+      return;
+    } else if (rows.length < 1) {
+      console.log("the Vehicle ID doesn't exist");
+      res.statusCode = 404;
+      res.json({
+        message: "The Vehicle: " + id + " does not exist in our database"
+      });
+      return;
+    } else {
+      res.json(rows);
+    }
+  });
+});
+
+
 //Create Simple fetch Request From The Database
 app.get("/students", (req, res) => {
   //<---------------------- Edit listenning tag
