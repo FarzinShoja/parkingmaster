@@ -99,13 +99,13 @@ app.get("/students/:sID", (req, res) => {
 app.get("/vehicles/:vID", (req, res) => {
   const connection = getConnection();
   //Attaching
-  const id = req.params.sID;
+  const id = req.params.vID;
 
-  const queryString = "SELECT * FROM Vehicle WHERE VehicleID = ? ";
+  const queryString = "SELECT * FROM Vehicles WHERE VehicleID = ? ";
 
   connection.query(queryString, [id], (err, rows) => {
     if (err) {
-      console.log(err + ":Faild to get the Student by ID");
+      console.log(err + ":Faild to get the Vehicle by ID");
       //look for proper code error
       res.statusCode = 500;
       return;
