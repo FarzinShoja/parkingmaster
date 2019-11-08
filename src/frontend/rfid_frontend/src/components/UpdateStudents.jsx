@@ -72,7 +72,8 @@ export default class UpdateStudent extends React.Component {
             }
           }}
         >
-          Update
+
+          Updates
         </button>
         {this.state.showPopup ? (
           <Popup

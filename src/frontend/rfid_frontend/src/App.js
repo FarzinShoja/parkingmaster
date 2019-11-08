@@ -8,6 +8,7 @@ import "./App.css";
 import GetLog from "./components/GetLog.jsx";
 import GetAllStudents from "./components/GetAllStudents.jsx";
 import UpdateStudents from "./components/UpdateStudents.jsx";
+import UpdateVehicle from "./components/UpdateVehicle.jsx";
 
 class App extends Component {
   render() {
@@ -28,6 +29,8 @@ class App extends Component {
         <UpdateStudents />
         <hr />
         <CreateVehicleComp />
+        <hr />
+        <UpdateVehicle />
         <hr />
       </div>
     );
