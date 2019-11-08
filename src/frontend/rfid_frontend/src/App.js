@@ -5,6 +5,9 @@ import CreateStudentComp from "./components/CreateStudentComp.jsx";
 import CreateVehicleComp from "./components/CreateVehicleComp.jsx";
 import SpotCounter from "./components/Counter.jsx";
 import "./App.css";
+import GetLog from "./components/GetLog.jsx";
+import GetAllStudents from "./components/GetAllStudents.jsx";
+import UpdateStudents from "./components/UpdateStudents.jsx";
 
 class App extends Component {
   render() {
@@ -12,13 +15,19 @@ class App extends Component {
       <div>
         <SpotCounter />
         <hr />
-        <GetAllComponent></GetAllComponent>
+        <GetLog></GetLog>
+        <hr></hr>
+        <GetAllStudents />
+        <hr></hr>
+        <GetAllComponent />
         <hr />
         <GetTag />
         <hr />
         <CreateStudentComp />
         <hr />
-        <CreateVehicleComp></CreateVehicleComp>
+        <UpdateStudents />
+        <hr />
+        <CreateVehicleComp />
         <hr />
       </div>
     );

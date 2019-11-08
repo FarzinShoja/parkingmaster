@@ -10,7 +10,6 @@ export default class CreateVehicleComp extends React.Component {
       Year: "",
       Licence_Plate: "",
       Tag_Number: "",
-      Tag_status: "",
       postVehicle_info: ""
     };
 
@@ -20,7 +19,6 @@ export default class CreateVehicleComp extends React.Component {
     this.handleChangeYear = this.handleChangeYear.bind(this);
     this.handleChangeLicencePlate = this.handleChangeLicencePlate.bind(this);
     this.handleChangeTagNumber = this.handleChangeTagNumber.bind(this);
-    this.handleChangeTagstatus = this.handleChangeTagstatus.bind(this);
   }
 
   handleChangeStudentid(event) {
@@ -56,45 +54,6 @@ export default class CreateVehicleComp extends React.Component {
   handleChangeTagNumber(event) {
     this.setState({
       Tag_Number: event.target.value
-    });
-  }
-  handleChangeTagstatus(event) {
-    this.setState({
-      Tag_status: event.target.value
-    });
-  }
-
-  convertJSON2Table(jData) {
-    var col = [];
-    for (let x = 0; x < jData.length; x++) {
-      for (let key in jData[x]) {
-        if (col.indexOf(key) === -1) {
-          col.push(key);
-        }
-      }
-    }
-
-    var table = document.createElement("table");
-
-    var tr = table.insertRow(-1);
-    for (let x = 0; x < col.length; x++) {
-      var th = document.createElement("th");
-      th.innerHTML = col[x];
-      tr.appendChild(th);
-    }
-
-    for (let x = 0; x < jData.length; x++) {
-      tr = table.insertRow(-1);
-
-      for (let y = 0; y < col.length; y++) {
-        var tabCell = tr.insertCell(-1);
-        tabCell.innerHTML = jData[x][col[y]];
-      }
-    }
-
-    this.setState({
-      postVehicle_info: table.outerHTML,
-      userinput: ""
     });
   }
 
@@ -150,13 +109,6 @@ export default class CreateVehicleComp extends React.Component {
           onChange={this.handleChangeTagNumber}
         />
         <br></br>
-        Tag Status
-        <input
-          type="text"
-          name="Status"
-          value={this.state.Tag_status}
-          onChange={this.handleChangeTagstatus}
-        />
         <br></br>
         <button
           onClick={e => {
@@ -173,7 +125,7 @@ export default class CreateVehicleComp extends React.Component {
                 Year: this.state.Year,
                 LicencePlate: this.state.Licence_Plate,
                 TagNum: this.state.Tag_Number,
-                TagStatus: this.state.Tag_status
+                TagStatus: 0
               })
             })
               .then(res => res.json())

@@ -56,7 +56,7 @@ class GetTag extends Component {
   render() {
     return (
       <React.Fragment>
-        <h1>Tag by Tag #</h1>
+        <h1>Get Log Data by Tag #</h1>
         <form>
           <label>
             Tag Num:
