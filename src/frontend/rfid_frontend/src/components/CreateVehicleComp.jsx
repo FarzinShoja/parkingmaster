@@ -124,8 +124,7 @@ export default class CreateVehicleComp extends React.Component {
                 Model: this.state.Model,
                 Year: this.state.Year,
                 LicencePlate: this.state.Licence_Plate,
-                TagNum: this.state.Tag_Number,
-                TagStatus: 0
+                TagNum: this.state.Tag_Number
               })
             })
               .then(res => res.json())

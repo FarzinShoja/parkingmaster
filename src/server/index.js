@@ -78,12 +78,13 @@ app.get("/students/:sID", (req, res) => {
     if (err) {
       console.log(err + ":Faild to get the Student by ID");
       //look for proper code error
-      res.statusCode = 500;
+      res.statusCode = 404;
       return;
     } else if (rows.length < 1) {
       console.log("the Student ID doesn't exist");
       res.statusCode = 404;
       res.json({
+        errorCode: 404,
         message: "The Student: " + id + " does not exist in our database"
       });
       return;
@@ -320,8 +321,10 @@ app.put("/updatestudent", (req, res) => {
       return;
     } else {
       if (results[0].count < 1) {
-        console.log("This Student ID " + id + " Does not exist");
+        console.log(err + "This Student ID " + id + " Does not exist");
+        res.statusCode = 404;
         res.json({
+          errorCode: 404,
           message: "This Student ID " + id + " Does not exist"
         });
       } else {
@@ -417,7 +420,6 @@ app.post("/createvehicle", (req, res) => {
   const year = req.body.Year;
   const licplate = req.body.LicencePlate;
   const tagnum = req.body.TagNum;
-  const tagstatus = req.body.TagStatus;
 
   const connection = getConnection();
   //=== Verify if the Student ID exist before adding data to Vehicle Table
@@ -441,10 +443,10 @@ app.post("/createvehicle", (req, res) => {
       return;
     } else {
       const queryString2 =
-        "INSERT INTO Vehicles (StudentID,Make,Model,Year,LicencePlate,TagNum,TagStatus) VALUES(?,?,?,?,?,?,?)";
+        "INSERT INTO Vehicles (StudentID,Make,Model,Year,LicencePlate,TagNum) VALUES(?,?,?,?,?,?)";
       connection.query(
         queryString2,
-        [id, make, model, year, licplate, tagnum, tagstatus],
+        [id, make, model, year, licplate, tagnum],
         (err, results) => {
           if (err) {
             console.log("Failed The Second query" + err);
@@ -466,8 +468,6 @@ app.post("/createvehicle", (req, res) => {
                 licplate +
                 " " +
                 tagnum +
-                " " +
-                tagstatus +
                 " has been added to the vehicle table"
             );
             res.json({
@@ -484,8 +484,6 @@ app.post("/createvehicle", (req, res) => {
                 licplate +
                 " " +
                 tagnum +
-                " " +
-                tagstatus +
                 " has been added to the vehicle table"
             });
             res.end();

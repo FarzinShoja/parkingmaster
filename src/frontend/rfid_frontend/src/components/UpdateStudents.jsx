@@ -61,12 +61,19 @@ export default class UpdateStudent extends React.Component {
               })
                 .then(res => res.json())
                 .then(result => {
-                  this.setState({
-                    Firstname: JSON.stringify(result[0].FirstName),
-                    Lastname: JSON.stringify(result[0].LastName)
-                  });
-                  this.togglePop();
-                });
+                  console.log(result);
+                  if(result.errorCode === 404){
+                    alert("use right student id foll");
+                    console.log("HELLO AUSTIN!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+                  } else {
+                    this.setState({
+                      Firstname: JSON.stringify(result[0].FirstName),
+                      Lastname: JSON.stringify(result[0].LastName)
+                    });
+                    this.togglePop();
+                }
+                })
+                // .catch(error => alert("HJJJJ" + error));
             } else {
               alert("Enter a student ID");
             }

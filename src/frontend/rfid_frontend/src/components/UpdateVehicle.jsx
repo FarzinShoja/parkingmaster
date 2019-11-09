@@ -10,15 +10,11 @@ export default class UpdateVehicle extends React.Component {
       Year: "",
       Licence_Plate: "",
       Tag_Number: "",
+      tag_Status: "",
       showPopup: false
     };
 
     this.handleChangeVehicleid = this.handleChangeVehicleid.bind(this);
-    this.handleChangeMake = this.handleChangeMake.bind(this);
-    this.handleChangeModel = this.handleChangeModel.bind(this);
-    this.handleChangeYear = this.handleChangeYear.bind(this);
-    this.handleChangeLicencePlate = this.handleChangeLicencePlate.bind(this);
-    this.handleChangeTagNumber = this.handleChangeTagNumber.bind(this);
     this.togglePop = this.togglePopup.bind(this);
   }
 
@@ -31,36 +27,6 @@ export default class UpdateVehicle extends React.Component {
   handleChangeVehicleid(event) {
     this.setState({
       Vehicle_id: event.target.value
-    });
-  }
-
-  handleChangeMake(event) {
-    this.setState({
-      Make: event.target.value
-    });
-  }
-
-  handleChangeModel(event) {
-    this.setState({
-      Model: event.target.value
-    });
-  }
-
-  handleChangeYear(event) {
-    this.setState({
-      Year: event.target.value
-    });
-  }
-
-  handleChangeLicencePlate(event) {
-    this.setState({
-      Licence_Plate: event.target.value
-    });
-  }
-
-  handleChangeTagNumber(event) {
-    this.setState({
-      Tag_Number: event.target.value
     });
   }
 
@@ -89,8 +55,9 @@ export default class UpdateVehicle extends React.Component {
                     Make: JSON.stringify(result[0].Make),
                     Model: JSON.stringify(result[0].Model),
                     Year: JSON.stringify(result[0].Year),
-                    LicencePlate: JSON.stringify(result[0].LicencePlate),
-                    TagNum: JSON.stringify(result[0].TagNum)
+                    Licence_Plate: JSON.stringify(result[0].LicencePlate),
+                    Tag_Number: JSON.stringify(result[0].TagNum),
+                    Tag_Status: JSON.stringify(result[0].TagStatus),
                   });
                   this.togglePop();
                 });
@@ -107,8 +74,9 @@ export default class UpdateVehicle extends React.Component {
             mK={this.state.Make}
             mO={this.state.Model}
             Yr={this.state.Year}
-            lP={this.state.LicencePlate}
-            tN={this.state.TagNum}
+            lP={this.state.Licence_Plate}
+            tN={this.state.Tag_Number}
+            tS={this.state.Tag_Status}
             closePopup={this.togglePopup.bind(this)}
           />
         ) : null}
@@ -131,7 +99,8 @@ class Popup extends React.Component {
       Model: "",
       Year: "",
       Licence_Plate: "",
-      Tag_Number: ""
+      Tag_Number: "",
+      Tag_Status: ""
     };
 
     this.handleChangeMake = this.handleChangeMake.bind(this);
@@ -139,6 +108,7 @@ class Popup extends React.Component {
     this.handleChangeYear = this.handleChangeYear.bind(this);
     this.handleChangeLicencePlate = this.handleChangeLicencePlate.bind(this);
     this.handleChangeTagNumber = this.handleChangeTagNumber.bind(this);
+    this.handleChangeTagStatus = this.handleChangeTagStatus.bind(this);
   }
 
   componentDidMount() {
@@ -148,7 +118,8 @@ class Popup extends React.Component {
       Model: this.props.mO.replace(/['"]+/g, ""),
       Year: this.props.Yr.replace(/['"]+/g, ""),
       Licence_Plate: this.props.lP.replace(/['"]+/g, ""),
-      Tag_Number: this.props.tN.replace(/['"]+/g, "")
+      Tag_Number: this.props.tN.replace(/['"]+/g, ""),
+      Tag_Status: this.props.tS.replace(/['"]+/g, "")
     });
   }
 
@@ -185,6 +156,12 @@ class Popup extends React.Component {
   handleChangeTagNumber(event) {
     this.setState({
       Tag_Number: event.target.value
+    });
+  }
+  
+  handleChangeTagStatus(event) {
+    this.setState({
+      Tag_Status: event.target.value
     });
   }
   render() {
@@ -230,6 +207,16 @@ class Popup extends React.Component {
             value={this.state.Tag_Number}
             onChange={this.handleChangeTagNumber}
           />
+              <br></br>
+          Tag Status =
+          <input
+            type="text"
+            name="Tstat"
+            value={this.state.Tag_Status}
+            onChange={this.handleChangeTagStatus}
+          />
+
+
           <br />
           <button
             onClick={e => {
@@ -245,7 +232,8 @@ class Popup extends React.Component {
                   Model: this.state.Model,
                   Year: this.state.Year,
                   LicencePlate: this.state.Licence_Plate,
-                  Tag_Number: this.state.Tag_Number
+                  TagNum: this.state.Tag_Number,
+                  TagStatus: this.state.Tag_Status,
                 })
               })
                 .then(res => res.json())
