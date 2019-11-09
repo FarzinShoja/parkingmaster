@@ -108,12 +108,13 @@ app.get("/vehicles/:vID", (req, res) => {
     if (err) {
       console.log(err + ":Faild to get the Vehicle by ID");
       //look for proper code error
-      res.statusCode = 500;
+      res.statusCode = 404;
       return;
     } else if (rows.length < 1) {
       console.log("the Vehicle ID doesn't exist");
       res.statusCode = 404;
       res.json({
+        errorCode: 404,
         message: "The Vehicle: " + id + " does not exist in our database"
       });
       return;
@@ -517,7 +518,9 @@ app.put("/updatevehicle", (req, res) => {
     } else {
       if (results[0].count < 1) {
         console.log("This Vehicle ID: " + vid + " Does not exist");
+        res.statusCode = 404;
         res.json({
+          errorCode: 404,
           message: "This Vehicle ID: " + vid + " Does not exist"
         });
       } else {

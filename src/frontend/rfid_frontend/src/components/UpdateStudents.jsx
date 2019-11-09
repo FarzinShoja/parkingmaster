@@ -72,7 +72,7 @@ export default class UpdateStudent extends React.Component {
                     });
                     this.togglePop();
                 }
-                })
+                });
                 // .catch(error => alert("HJJJJ" + error));
             } else {
               alert("Enter a student ID");
