@@ -51,6 +51,11 @@ export default class UpdateVehicle extends React.Component {
               })
                 .then(res => res.json())
                 .then(result => {
+                  console.log(result);
+                  if(result.errorCode === 404) {
+                    alert("This Vehicle ID Does Not Exist in Our Data Base");
+                    console.log("This Vehicle ID Does Not Exist in Our Data Base");
+                  } else {
                   this.setState({
                     Make: JSON.stringify(result[0].Make),
                     Model: JSON.stringify(result[0].Model),
@@ -60,6 +65,7 @@ export default class UpdateVehicle extends React.Component {
                     Tag_Status: JSON.stringify(result[0].TagStatus)
                   });
                   this.togglePop();
+                }
                 });
             } else {
               alert("Enter a Vehicle ID");
