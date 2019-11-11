@@ -9,6 +9,8 @@ import GetLog from "./components/GetLog.jsx";
 import GetAllStudents from "./components/GetAllStudents.jsx";
 import UpdateStudents from "./components/UpdateStudents.jsx";
 import UpdateVehicle from "./components/UpdateVehicle.jsx";
+import DeleteStudent from "./components/DeleteStudent.jsx";
+import DeleteVehicle from "./components/DeleteVehicle.jsx";
 
 class App extends Component {
   render() {
@@ -28,9 +30,13 @@ class App extends Component {
         <hr />
         <UpdateStudents />
         <hr />
+        <DeleteStudent />
+        <hr />
         <CreateVehicleComp />
         <hr />
         <UpdateVehicle />
+        <hr />
+        <DeleteVehicle />
         <hr />
       </div>
     );

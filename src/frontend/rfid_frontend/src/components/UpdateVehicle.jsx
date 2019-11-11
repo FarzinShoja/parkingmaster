@@ -57,7 +57,7 @@ export default class UpdateVehicle extends React.Component {
                     Year: JSON.stringify(result[0].Year),
                     Licence_Plate: JSON.stringify(result[0].LicencePlate),
                     Tag_Number: JSON.stringify(result[0].TagNum),
-                    Tag_Status: JSON.stringify(result[0].TagStatus),
+                    Tag_Status: JSON.stringify(result[0].TagStatus)
                   });
                   this.togglePop();
                 });
@@ -158,7 +158,7 @@ class Popup extends React.Component {
       Tag_Number: event.target.value
     });
   }
-  
+
   handleChangeTagStatus(event) {
     this.setState({
       Tag_Status: event.target.value
@@ -207,7 +207,7 @@ class Popup extends React.Component {
             value={this.state.Tag_Number}
             onChange={this.handleChangeTagNumber}
           />
-              <br></br>
+          <br></br>
           Tag Status =
           <input
             type="text"
@@ -215,8 +215,6 @@ class Popup extends React.Component {
             value={this.state.Tag_Status}
             onChange={this.handleChangeTagStatus}
           />
-
-
           <br />
           <button
             onClick={e => {
@@ -233,7 +231,7 @@ class Popup extends React.Component {
                   Year: this.state.Year,
                   LicencePlate: this.state.Licence_Plate,
                   TagNum: this.state.Tag_Number,
-                  TagStatus: this.state.Tag_Status,
+                  TagStatus: this.state.Tag_Status
                 })
               })
                 .then(res => res.json())

@@ -46,7 +46,7 @@ export default class DeleteStudent extends React.Component {
     }
 
     this.setState({
-      DeleteStudent_info: table.outerHTML,
+      DeleteStudent_info: table.innerHTML,
       userinput: ""
     });
   }
@@ -54,12 +54,20 @@ export default class DeleteStudent extends React.Component {
   render() {
     return (
       <React.Fragment>
-        }
+        <h1>Delete Student</h1>
+        Student ID:
+        <input
+          type="text"
+          name="SID"
+          value={this.state.student_id}
+          onChange={this.handleChangeStudentid}
+        />
+        <br />
         <button
           //Check if user input is not blank
           onClick={e => {
             fetch("http://localhost:3000/delete/studentdata/:StudentID", {
-              method: "POST",
+              method: "DELETE",
               headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"
