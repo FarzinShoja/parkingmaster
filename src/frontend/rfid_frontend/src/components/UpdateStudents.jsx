@@ -7,13 +7,29 @@ export default class UpdateStudent extends React.Component {
       student_id: "",
       Firstname: "",
       Lastname: "",
-      showPopup: false
+      VehicleID: ""
     };
 
-    this.handleChangeStudentid = this.handleChangeStudentid.bind(this);
     this.handleChangeFirstname = this.handleChangeFirstname.bind(this);
     this.handleChangeLastname = this.handleChangeLastname.bind(this);
+    this.handleChangeVehicleID = this.handleChangeVehicleID.bind(this);
     this.togglePop = this.togglePopup.bind(this);
+  }
+
+  componentDidMount() {
+    let vID_Holder = "";
+    if (this.props.vID !== null) {
+      vID_Holder = this.props.vID;
+    } else {
+      vID_Holder = "";
+    }
+
+    this.setState({
+      student_id: this.props.sID,
+      Firstname: this.props.fN,
+      Lastname: this.props.lN,
+      VehicleID: vID_Holder
+    });
   }
 
   togglePopup() {
@@ -22,12 +38,6 @@ export default class UpdateStudent extends React.Component {
     });
   }
 
-  handleChangeStudentid(event) {
-    this.setState({
-      student_id: event.target.value
-    });
-  }
-
   handleChangeFirstname(event) {
     this.setState({
       Firstname: event.target.value
@@ -40,97 +50,12 @@ export default class UpdateStudent extends React.Component {
     });
   }
 
-  render() {
-    return (
-      <React.Fragment>
-        <h1>Update Student</h1>
-        Enter Student ID:
-        <input
-          type="text"
-          name="SID"
-          value={this.state.student_id}
-          onChange={this.handleChangeStudentid}
-        />
-        <br></br>
-        <button
-          //Check if user input is not blank
-          onClick={e => {
-            if (this.state.student_id !== "") {
-              fetch("http://localhost:3000/students/" + this.state.student_id, {
-                method: "GET"
-              })
-                .then(res => res.json())
-                .then(result => {
-                  console.log(result);
-                  if(result.errorCode === 404){
-                    alert("use right student id foll");
-                    console.log("HELLO AUSTIN!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-                  } else {
-                    this.setState({
-                      Firstname: JSON.stringify(result[0].FirstName),
-                      Lastname: JSON.stringify(result[0].LastName)
-                    });
-                    this.togglePop();
-                }
-                });
-                // .catch(error => alert("HJJJJ" + error));
-            } else {
-              alert("Enter a student ID");
-            }
-          }}
-        >
-          Update
-        </button>
-        {this.state.showPopup ? (
-          <Popup
-            sID={this.state.student_id}
-            fN={this.state.Firstname}
-            lN={this.state.Lastname}
-            closePopup={this.togglePopup.bind(this)}
-          />
-        ) : null}
-        <br></br>
-        <br></br>
-      </React.Fragment>
-    );
-  }
-}
-//=================================================================================================
-//=================================================================================================
-//=================================================================================================
-//=================================================================================================
-class Popup extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      student_id: "",
-      Firstname: "",
-      Lastname: ""
-    };
-
-    this.handleChangeFirstname = this.handleChangeFirstname.bind(this);
-    this.handleChangeLastname = this.handleChangeLastname.bind(this);
-  }
-
-  componentDidMount() {
+  handleChangeVehicleID(event) {
     this.setState({
-      student_id: this.props.sID.replace(/['"]+/g, ""),
-      Firstname: this.props.fN.replace(/['"]+/g, ""),
-      Lastname: this.props.lN.replace(/['"]+/g, "")
+      VehicleID: event.target.value
     });
   }
 
-  handleChangeFirstname(event) {
-    this.setState({
-      Firstname: event.target.value
-    });
-  }
-
-  handleChangeLastname(event) {
-    this.setState({
-      Lastname: event.target.value
-    });
-  }
   render() {
     return (
       <div className="popup">
@@ -150,9 +75,21 @@ class Popup extends React.Component {
             value={this.state.Lastname}
             onChange={this.handleChangeLastname}
           />
+          Vehicle ID =
+          <input
+            type="text"
+            name="Vid"
+            value={this.state.VehicleID}
+            onChange={this.handleChangeVehicleID}
+          />
           <br />
           <button
             onClick={e => {
+              let v_holder = null;
+              if (this.state.VehicleID !== "") {
+                v_holder = this.state.VehicleID;
+              }
+
               fetch("http://localhost:3000/updatestudent/", {
                 method: "PUT",
                 headers: {
@@ -162,13 +99,26 @@ class Popup extends React.Component {
                 body: JSON.stringify({
                   StudentID: this.state.student_id,
                   FirstName: this.state.Firstname,
-                  LastName: this.state.Lastname
+                  LastName: this.state.Lastname,
+                  VehicleID: v_holder
                 })
               })
                 .then(res => res.json())
                 .then(result => {
-                  alert(result.message);
+                  if (result.sqlError.errno === 1062) {
+                    alert(
+                      "That Vehicle ID  is USED by another... try another Vehicle ID."
+                    );
+                  } else if (result.sqlError.errno === 1452) {
+                    alert(
+                      "That Vehicle ID does NOT EXIST try another Vehicle ID."
+                    );
+                  } else {
+                    alert(result.message);
+                    this.props.reloadTable();
+                  }
                 });
+              this.props.closePopup();
             }}
           >
             Submit Updates

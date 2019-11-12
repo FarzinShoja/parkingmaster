@@ -1,71 +1,165 @@
 import React from "react";
 
+import ReactTable from "react-table";
+import "react-table/react-table.css";
+
+import UpdateStudent from "./UpdateStudents";
+
 export default class GetAllStudents extends React.Component {
   constructor() {
     super();
     this.state = {
-      getAll_data1: ""
+      student_id: "",
+      Firstname: "",
+      Lastname: "",
+      VehicleID: "",
+      fetchedData: [{}],
+      showPopup: false
     };
+    this.togglePop = this.togglePopup.bind(this);
+    this.reloadTable = this.reloadTable.bind(this);
   }
 
-  // ==================================== This will create a table based on JSON response change the STATE of the div ===================
-  convertJSON2Table4data1(jData) {
-    var col = [];
-    for (let x = 0; x < jData.length; x++) {
-      for (let key in jData[x]) {
-        if (col.indexOf(key) === -1) {
-          col.push(key);
-        }
-      }
-    }
-
-    var table = document.createElement("table");
-
-    var tr = table.insertRow(-1);
-    for (let x = 0; x < col.length; x++) {
-      var th = document.createElement("th");
-      th.innerHTML = col[x];
-      tr.appendChild(th);
-    }
-
-    for (let x = 0; x < jData.length; x++) {
-      tr = table.insertRow(-1);
-
-      for (let y = 0; y < col.length; y++) {
-        var tabCell = tr.insertCell(-1);
-        tabCell.innerHTML = jData[x][col[y]];
-      }
-    }
-
+  togglePopup() {
     this.setState({
-      getAll_data1: table.outerHTML
+      showPopup: !this.state.showPopup
     });
+  }
+
+  reloadTable() {
+    this.setState({
+      fetchedData: [{}]
+    });
+    this.loadTableData();
+  }
+
+  loadTableData() {
+    fetch("http://localhost:3000/students", {
+      method: "GET"
+    })
+      .then(res => res.json())
+      .then(result => {
+        this.setState({
+          fetchedData: result
+        });
+      });
   }
 
   // ==========================================================================================================================================
   render() {
+    const data = this.state.fetchedData;
+
     return (
       <React.Fragment>
-        <h1> Get All Students</h1>
+        <h1> Students</h1>
         <button
+          id="getBtn"
+          hidden={false}
           onClick={e => {
-            fetch("http://localhost:3000/students", {
-              method: "GET"
-            })
-              .then(res => res.json())
-              .then(result => {
-                this.convertJSON2Table4data1(result);
-              });
+            this.loadTableData();
+            document.getElementById("tableDiv").hidden = false;
+            document.getElementById("closeBtn").hidden = false;
+            document.getElementById("getBtn").hidden = true;
           }}
         >
-          GET ALL
+          Show Student Table
+        </button>
+        <button
+          id="closeBtn"
+          hidden={true}
+          onClick={e => {
+            document.getElementById("tableDiv").hidden = true;
+            document.getElementById("closeBtn").hidden = true;
+            document.getElementById("getBtn").hidden = false;
+          }}
+        >
+          Close Table
         </button>
         <br />
         <br />
-        <div
-          className="data1"
-          dangerouslySetInnerHTML={{ __html: this.state.getAll_data1 }}
-        ></div>
+        <div id="tableDiv" hidden={true}>
+          <ReactTable
+            data={data}
+            columns={[
+              {
+                Header: "Student ID",
+                accessor: "StudentID",
+                filterable: true
+              },
+              {
+                Header: "First Name",
+                accessor: "FirstName",
+                filterable: false
+              },
+              {
+                Header: "Last Name",
+                accessor: "LastName",
+                filterable: false
+              },
+              {
+                Header: "Vehicle ID",
+                accessor: "VehicleID",
+                filterable: true
+              },
+              {
+                Header: "Actions",
+                filterable: false,
+                Cell: props => {
+                  return (
+                    <div>
+                      <button
+                        onClick={e => {
+                          this.setState({
+                            student_id: props.original.StudentID,
+                            Firstname: props.original.FirstName,
+                            Lastname: props.original.LastName,
+                            VehicleID: props.original.VehicleID
+                          });
+                          this.togglePop();
+                        }}
+                      >
+                        Update
+                      </button>
+                      {this.state.showPopup ? (
+                        <UpdateStudent
+                          sID={this.state.student_id}
+                          fN={this.state.Firstname}
+                          lN={this.state.Lastname}
+                          vID={this.state.VehicleID}
+                          closePopup={this.togglePopup.bind(this)}
+                          reloadTable={this.reloadTable.bind(this)}
+                        />
+                      ) : null}
+                      <span> </span>
+                      <button
+                        onClick={e => {
+                          fetch(
+                            "http://localhost:3000/delete/studentdata/" +
+                              props.original.StudentID,
+                            {
+                              method: "DELETE"
+                            }
+                          )
+                            .then(res => res.json())
+                            .then(result => {
+                              this.reloadTable();
+                              alert(result.message);
+                            });
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  );
+                }
+              }
+            ]}
+            filterable
+            loadingText="Loading....."
+            defaultPageSize={10}
+            className="-striped -highlight"
+          />
+        </div>
       </React.Fragment>
     );
   }
