@@ -51,7 +51,7 @@ export default class UpdateStudent extends React.Component {
           value={this.state.student_id}
           onChange={this.handleChangeStudentid}
         />
-        <br></br>
+        <span>     </span>
         <button
           //Check if user input is not blank
           onClick={e => {

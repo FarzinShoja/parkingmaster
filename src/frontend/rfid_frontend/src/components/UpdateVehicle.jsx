@@ -41,7 +41,7 @@ export default class UpdateVehicle extends React.Component {
           value={this.state.Vehicle_id}
           onChange={this.handleChangeVehicleid}
         />
-        <br></br>
+        <span>     </span>
         <button
           //Check if user input is not blank
           onClick={e => {
@@ -184,7 +184,7 @@ class Popup extends React.Component {
             value={this.state.Make}
             onChange={this.handleChangeMake}
           />
-          <br></br>
+          <span>     </span>
           Model :
           <input
             type="text"
@@ -192,7 +192,7 @@ class Popup extends React.Component {
             value={this.state.Model}
             onChange={this.handleChangeModel}
           />
-          <br></br>
+          <span>     </span>
           Year :
           <input
             type="text"
@@ -200,7 +200,7 @@ class Popup extends React.Component {
             value={this.state.Year}
             onChange={this.handleChangeYear}
           />
-          <br></br>
+          <span>     </span>
           Licence Plate:
           <input
             type="text"
@@ -208,7 +208,7 @@ class Popup extends React.Component {
             value={this.state.Licence_Plate}
             onChange={this.handleChangeLicencePlate}
           />
-          <br></br>
+          <span>     </span>
           Tag # : 
           <input
             type="text"
@@ -216,13 +216,8 @@ class Popup extends React.Component {
             value={this.state.Tag_Number}
             onChange={this.handleChangeTagNumber}
           />
-<<<<<<< HEAD
-              <br></br>
+          <span>     </span>
           Tag Status:
-=======
-          <br></br>
-          Tag Status =
->>>>>>> c158cb792ee8bf660a26be374d33639230187c48
           <input
             type="text"
             name="Tstat"

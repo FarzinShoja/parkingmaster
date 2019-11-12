@@ -4,14 +4,7 @@ export default class DeleteVehicle extends React.Component {
   constructor() {
     super();
     this.state = {
-      Vehicle_id: "",
-      Make: "",
-      Model: "",
-      Year: "",
-      Licence_Plate: "",
-      Tag_Number: "",
-      tag_Status: "",
-      DeleteStudent_info: ""
+      Vehicle_id: ""
     };
 
     this.handleChangeVehicleid = this.handleChangeVehicleid.bind(this);
@@ -34,25 +27,12 @@ export default class DeleteVehicle extends React.Component {
           value={this.state.Vehicle_id}
           onChange={this.handleChangeVehicleid}
         />
-        <br />
+        <span>     </span>
         <button
           //Check if user input is not blank
           onClick={e => {
-            fetch("http://localhost:3000/delete/vehicledata/:VehicleID", {
+            fetch("http://localhost:3000/delete/vehicledata/" + this.state.Vehicle_id, {
               method: "DELETE",
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-              },
-              body: JSON.stringify({
-                VehicleID: this.state.Vehicle_id,
-                Make: this.state.Make,
-                Model: this.state.Model,
-                Year: this.state.Year,
-                LicencePlate: this.state.Licence_Plate,
-                TagNum: this.state.Tag_Number,
-                TagStatus: this.state.Tag_Status
-              })
             })
               .then(res => res.json())
               .then(result => {

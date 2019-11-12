@@ -57,7 +57,6 @@ class GetTag extends Component {
     return (
       <React.Fragment>
         <h1>Get Log Data by Tag #</h1>
-        <form>
           <label>
             Tag Num:
             <input
@@ -66,7 +65,7 @@ class GetTag extends Component {
               onChange={this.handleChange}
             />
           </label>
-        </form>
+        <span>     </span>
         <button
           onClick={e => {
             fetch(
@@ -92,7 +91,7 @@ class GetTag extends Component {
               });
           }}
         >
-          GET TagNum
+          Get Tag Num
         </button>
         <br></br>
         <br></br>
