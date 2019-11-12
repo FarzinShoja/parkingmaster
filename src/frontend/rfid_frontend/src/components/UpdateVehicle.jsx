@@ -166,7 +166,7 @@ class Popup extends React.Component {
       Tag_Number: event.target.value
     });
   }
-  
+
   handleChangeTagStatus(event) {
     this.setState({
       Tag_Status: event.target.value
@@ -216,16 +216,19 @@ class Popup extends React.Component {
             value={this.state.Tag_Number}
             onChange={this.handleChangeTagNumber}
           />
+<<<<<<< HEAD
               <br></br>
           Tag Status:
+=======
+          <br></br>
+          Tag Status =
+>>>>>>> c158cb792ee8bf660a26be374d33639230187c48
           <input
             type="text"
             name="Tstat"
             value={this.state.Tag_Status}
             onChange={this.handleChangeTagStatus}
           />
-
-
           <br />
           <button
             onClick={e => {
@@ -242,7 +245,7 @@ class Popup extends React.Component {
                   Year: this.state.Year,
                   LicencePlate: this.state.Licence_Plate,
                   TagNum: this.state.Tag_Number,
-                  TagStatus: this.state.Tag_Status,
+                  TagStatus: this.state.Tag_Status
                 })
               })
                 .then(res => res.json())
