@@ -96,7 +96,9 @@ export default class UpdateVehicle extends React.Component {
 //=================================================================================================
 //=================================================================================================
 //=================================================================================================
+
 class Popup extends React.Component {
+  
   constructor() {
     super();
     this.state = {
@@ -174,7 +176,8 @@ class Popup extends React.Component {
     return (
       <div className="popup">
         <div className="popup_inner">
-          Make =
+        <br></br>
+          Make :
           <input
             type="text"
             name="mk"
@@ -182,7 +185,7 @@ class Popup extends React.Component {
             onChange={this.handleChangeMake}
           />
           <br></br>
-          Model =
+          Model :
           <input
             type="text"
             name="mo"
@@ -190,7 +193,7 @@ class Popup extends React.Component {
             onChange={this.handleChangeModel}
           />
           <br></br>
-          Year =
+          Year :
           <input
             type="text"
             name="year"
@@ -198,7 +201,7 @@ class Popup extends React.Component {
             onChange={this.handleChangeYear}
           />
           <br></br>
-          Licence Plate =
+          Licence Plate:
           <input
             type="text"
             name="LP"
@@ -206,7 +209,7 @@ class Popup extends React.Component {
             onChange={this.handleChangeLicencePlate}
           />
           <br></br>
-          Tag # =
+          Tag # : 
           <input
             type="text"
             name="Tnum"
@@ -214,7 +217,7 @@ class Popup extends React.Component {
             onChange={this.handleChangeTagNumber}
           />
               <br></br>
-          Tag Status =
+          Tag Status:
           <input
             type="text"
             name="Tstat"
