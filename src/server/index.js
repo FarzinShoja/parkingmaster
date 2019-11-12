@@ -25,8 +25,7 @@ app.listen(port, hostname, () => {
   console.log("Server started on port " + port);
 });
 
-
-//                  Parking Space Count 
+//                  Parking Space Count
 //===============================================================
 const parkingDeck_Lots = 734;
 
@@ -94,7 +93,6 @@ app.get("/students/:sID", (req, res) => {
   });
 });
 
-
 //          Get Vehicle by ID
 //=================================================
 app.get("/vehicles/:vID", (req, res) => {
@@ -123,7 +121,6 @@ app.get("/vehicles/:vID", (req, res) => {
     }
   });
 });
-
 
 //Create Simple fetch Request From The Database
 app.get("/students", (req, res) => {
@@ -326,7 +323,8 @@ app.put("/updatestudent", (req, res) => {
         res.statusCode = 404;
         res.json({
           errorCode: 404,
-          message: "This Student ID " + id + " Does not exist"
+          message: "This Student ID " + id + " Does not exist",
+          sqlError: err
         });
       } else {
         const queryString2 =
@@ -336,6 +334,10 @@ app.put("/updatestudent", (req, res) => {
           [name, lastname, vehicleid, id],
           (err, results) => {
             if (err) {
+              res.json({
+                errorCode: 404,
+                sqlError: err
+              });
               console.log("Failed second query" + err);
               //need to look for proper error code
               return;
@@ -352,6 +354,8 @@ app.put("/updatestudent", (req, res) => {
                   " has been updated it to Students the table"
               );
               res.json({
+                errorCode: 200,
+                sqlError: err,
                 message:
                   "The Student With ID: " +
                   id +
