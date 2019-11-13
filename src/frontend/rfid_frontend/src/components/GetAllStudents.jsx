@@ -53,35 +53,36 @@ export default class GetAllStudents extends React.Component {
       <React.Fragment>
         <h1> Students</h1>
         <button
-          id="getBtn"
+          id="getBtn_s"
           hidden={false}
           onClick={e => {
             this.loadTableData();
-            document.getElementById("tableDiv").hidden = false;
-            document.getElementById("closeBtn").hidden = false;
-            document.getElementById("getBtn").hidden = true;
+            document.getElementById("tableDiv_s").hidden = false;
+            document.getElementById("closeBtn_s").hidden = false;
+            document.getElementById("getBtn_s").hidden = true;
           }}
         >
           Show Student Table
         </button>
         <button
-          id="closeBtn"
+          id="closeBtn_s"
           hidden={true}
           onClick={e => {
-            document.getElementById("tableDiv").hidden = true;
-            document.getElementById("closeBtn").hidden = true;
-            document.getElementById("getBtn").hidden = false;
+            document.getElementById("tableDiv_s").hidden = true;
+            document.getElementById("closeBtn_s").hidden = true;
+            document.getElementById("getBtn_s").hidden = false;
           }}
         >
           Close Table
         </button>
         <br />
         <br />
-        <div id="tableDiv" hidden={true}>
+        <div id="tableDiv_s" hidden={true}>
           <ReactTable
             data={data}
             columns={[
               {
+                //Create Filter by Selecting True
                 Header: "Student ID",
                 accessor: "StudentID",
                 filterable: true
