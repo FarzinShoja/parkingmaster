@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import GetTag from "./components/GetTagComponent.jsx";
+// import GetTag from "./components/GetTagComponent.jsx";
 import GetAllVehicles from "./components/GetAllVehicles.jsx";
 import CreateStudentComp from "./components/CreateStudentComp.jsx";
 import CreateVehicleComp from "./components/CreateVehicleComp.jsx";
@@ -7,7 +7,6 @@ import SpotCounter from "./components/Counter.jsx";
 //import "./App.css";
 import GetLog from "./components/GetLog.jsx";
 import GetAllStudents from "./components/GetAllStudents.jsx";
-import DeleteVehicle from "./components/DeleteVehicle.jsx";
 
 class App extends Component {
   render() {
@@ -21,13 +20,9 @@ class App extends Component {
         <hr></hr>
         <GetAllVehicles />
         <hr />
-        <GetTag />
-        <hr />
         <CreateStudentComp />
         <hr />
         <CreateVehicleComp />
-        <hr />
-        <DeleteVehicle />
         <hr />
       </div>
     );
