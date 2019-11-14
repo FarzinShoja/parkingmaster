@@ -105,7 +105,8 @@ export default class UpdateStudent extends React.Component {
               })
                 .then(res => res.json())
                 .then(result => {
-                  if (result.sqlError.errno === 1062) {
+                  if(result.sqlError !== null) {
+                    if (result.sqlError.errno === 1062) {
                     alert(
                       "That Vehicle ID  is USED by another... try another Vehicle ID."
                     );
@@ -113,7 +114,8 @@ export default class UpdateStudent extends React.Component {
                     alert(
                       "That Vehicle ID does NOT EXIST try another Vehicle ID."
                     );
-                  } else {
+                  }
+                } else {
                     alert(result.message);
                     this.props.reloadTable();
                   }

@@ -660,6 +660,8 @@ app.get("/logtagdata/:scannedTagID_loc", (req, res) => {
         };
       });
 
+      console.log(dataHolder[0].v_ID);
+
       const queryString2 =
         "INSERT INTO DataLog (VehicleID,StudentID,Location,DateLog,TagStatus) VALUES(?,?,?,?,?)";
       connection.query(
@@ -669,11 +671,12 @@ app.get("/logtagdata/:scannedTagID_loc", (req, res) => {
           parseInt(dataHolder[0].student_number),
           location,
           dt,
-          parseInt(dataHolder[0].tag_status)
+          dataHolder[0].tag_status
         ],
         err => {
           if (err) {
             console.log("Failed at #2 query: " + err);
+            
             return;
           } else {
             // this keeps track of the available parking spots
