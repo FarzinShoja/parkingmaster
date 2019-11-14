@@ -10,6 +10,24 @@ app.use(bodyParser());
 const hostname = "";
 const port = 3000;
 
+
+
+
+//**************** Student */
+
+//**************** Vehicle */
+const router = require('./Vehicle/vehicles.js');
+const router1 = require('./Vehicle/createVehicles.js');
+const router2 = require('./Vehicle/updatevehicle.js');
+const router3 = require('./Vehicle/deletevehicle');
+
+app.use(router);
+app.use(router1);
+app.use(router2);
+app.use(router3);
+
+
+
 // FIX for the CORS ERROR problem....
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -93,35 +111,6 @@ app.get("/students/:sID", (req, res) => {
   });
 });
 
-//          Get Vehicle by ID
-//=================================================
-app.get("/vehicles/:vID", (req, res) => {
-  const connection = getConnection();
-  //Attaching
-  const id = req.params.vID;
-
-  const queryString = "SELECT * FROM Vehicles WHERE VehicleID = ? ";
-
-  connection.query(queryString, [id], (err, rows) => {
-    if (err) {
-      console.log(err + ":Faild to get the Vehicle by ID");
-      //look for proper code error
-      res.statusCode = 404;
-      return;
-    } else if (rows.length < 1) {
-      console.log("the Vehicle ID doesn't exist");
-      res.statusCode = 404;
-      res.json({
-        errorCode: 404,
-        message: "The Vehicle: " + id + " does not exist in our database"
-      });
-      return;
-    } else {
-      res.json(rows);
-    }
-  });
-});
-
 //Create Simple fetch Request From The Database
 app.get("/students", (req, res) => {
   //<---------------------- Edit listenning tag
@@ -141,24 +130,7 @@ app.get("/students", (req, res) => {
   });
 });
 
-//Create Simple fetch Request From The Database
-app.get("/vehicles", (req, res) => {
-  //<---------------------- Edit listenning tag
-  const connection = getConnection();
-  const queryString = "SELECT * FROM Vehicles";
 
-  connection.query(queryString, (err, rows) => {
-    if (err) {
-      console.log(err + ": Faild to run query");
-      //look for proper http code error
-      res.statusCode = 500;
-      return;
-    } else {
-      res.json(rows);
-    }
-    res.end();
-  });
-});
 
 //Create Simple fetch Request From The Database
 app.get("/datalog", (req, res) => {
@@ -179,60 +151,6 @@ app.get("/datalog", (req, res) => {
   });
 });
 
-//Create Simple fetch to get single tag number
-app.get("/vehicles/bytagnum/:TagNum", (req, res) => {
-  const connection = getConnection();
-  //Attaching
-  const id = req.params.TagNum;
-
-  const queryString = "SELECT * FROM Vehicles WHERE TagNum = ? ";
-
-  connection.query(queryString, [id], (err, rows) => {
-    if (err) {
-      console.log(err + ":Faild to get the Tag Number");
-      //look for proper code error
-      res.statusCode = 500;
-      return;
-    } else if (rows.length < 1) {
-      console.log("the Tag Number doesn't exist");
-      res.statusCode = 404;
-      res.json({
-        message: "The Tag: " + id + " does not exist in our database"
-      });
-      return;
-    } else {
-      res.json(rows);
-    }
-  });
-});
-
-//                          Create Simple fetch to get vehicle information
-//=================================================================================================
-app.get("/vehicles/bystudentid/:StudentID", (req, res) => {
-  const connection = getConnection();
-  //Attaching
-  const id = req.params.StudentID;
-
-  const queryString = "SELECT * FROM Vehicles WHERE StudentID = ? ";
-
-  connection.query(queryString, [id], (err, rows) => {
-    if (err) {
-      console.log(err + ":Faild to connect to database");
-      //look for proper code error
-      res.statusCode = 500;
-      return;
-    } else if (rows.length < 1) {
-      console.log("the Student ID: " + id + "doesn't exist");
-      res.statusCode = 404;
-      res.json({
-        message: "The Student ID: " + id + " does not exist in our database"
-      });
-      return;
-    } else {
-      res.json(rows);
-    }
-  });
-});
 
 //                                     Insert Student Data
 //=============================================================================================
@@ -416,212 +334,7 @@ app.delete("/delete/studentdata/:StudentID", (req, res) => {
   });
 });
 
-//                                     Insert Vehicle Data
-//=============================================================================================
-app.post("/createvehicle", (req, res) => {
-  const id = req.body.StudentID;
-  const make = req.body.Make;
-  const model = req.body.Model;
-  const year = req.body.Year;
-  const licplate = req.body.LicencePlate;
-  const tagnum = req.body.TagNum;
 
-  const connection = getConnection();
-  //=== Verify if the Student ID exist before adding data to Vehicle Table
-  const queryString = "SELECT * FROM Students WHERE StudentID = ?";
-
-  connection.query(queryString, [id], (err, rows) => {
-    if (err) {
-      console.log("Failed at query One connectivity: " + err);
-      res.statusCode = 500;
-      res.json({
-        message: err
-      });
-      return;
-    } else if (rows.length < 1) {
-      console.log(
-        "The Student ID : " + id + " Does Not exist in the system" + err
-      );
-      res.json({
-        message: "This Student ID " + id + " does not exist "
-      });
-      return;
-    } else {
-      const queryString2 =
-        "INSERT INTO Vehicles (StudentID,Make,Model,Year,LicencePlate,TagNum) VALUES(?,?,?,?,?,?)";
-      connection.query(
-        queryString2,
-        [id, make, model, year, licplate, tagnum],
-        (err, results) => {
-          if (err) {
-            console.log("Failed The Second query" + err);
-            res.json({
-              message: "Failed The Second query" + err
-            });
-            return;
-          } else {
-            console.log(
-              "The Data " +
-                id +
-                " " +
-                make +
-                " " +
-                model +
-                " " +
-                year +
-                " " +
-                licplate +
-                " " +
-                tagnum +
-                " has been added to the vehicle table"
-            );
-            res.json({
-              message:
-                "The Data " +
-                id +
-                " " +
-                make +
-                " " +
-                model +
-                " " +
-                year +
-                " " +
-                licplate +
-                " " +
-                tagnum +
-                " has been added to the vehicle table"
-            });
-            res.end();
-          }
-        }
-      );
-    }
-  });
-});
-
-//                                     Update Vehicle Data
-//=============================================================================================
-app.put("/updatevehicle", (req, res) => {
-  const vid = req.body.VehicleID;
-  const make = req.body.Make;
-  const model = req.body.Model;
-  const year = req.body.Year;
-  const licplate = req.body.LicencePlate;
-  const tagnum = req.body.TagNum;
-  const tagstatus = req.body.TagStatus;
-
-  const connection = getConnection();
-  const queryString =
-    "SELECT COUNT(*) AS count FROM Vehicles WHERE VehicleID = ?";
-
-  connection.query(queryString, [vid], (err, results) => {
-    if (err) {
-      console.log("Failed to connect to the Data Base");
-      res.statusCode = 500;
-      return;
-    } else {
-      if (results[0].count < 1) {
-        console.log("This Vehicle ID: " + vid + " Does not exist");
-        res.statusCode = 404;
-        res.json({
-          errorCode: 404,
-          message: "This Vehicle ID: " + vid + " Does not exist"
-        });
-      } else {
-        const queryString2 =
-          "UPDATE Vehicles SET Make=?, Model=?, Year=?, LicencePlate=?, TagNum=?, TagStatus=? WHERE VehicleID= ?";
-        connection.query(
-          queryString2,
-          [make, model, year, licplate, tagnum, tagstatus, vid],
-          (err, results) => {
-            if (err) {
-              console.log("Failed second query" + err);
-              res.statusCode = 500;
-              return;
-            } else {
-              console.log(
-                "The Data " +
-                  vid +
-                  " " +
-                  make +
-                  " " +
-                  model +
-                  " " +
-                  year +
-                  " " +
-                  licplate +
-                  " " +
-                  tagnum +
-                  " " +
-                  tagstatus +
-                  " has been Updated it."
-              );
-              res.json({
-                message:
-                  "The Data " +
-                  vid +
-                  " " +
-                  make +
-                  " " +
-                  model +
-                  " " +
-                  year +
-                  " " +
-                  licplate +
-                  " " +
-                  tagnum +
-                  " " +
-                  tagstatus +
-                  " has been updated it."
-              });
-              res.end();
-            }
-          }
-        );
-      }
-    }
-  });
-});
-
-//                                     Delete Vehicle Data
-//============================================================================================
-app.delete("/delete/vehicledata/:VehicleID", (req, res) => {
-  const id = req.params.VehicleID;
-  const connection = getConnection();
-
-  const queryString =
-    "SELECT COUNT(*) AS count FROM Vehicles WHERE VehicleID = ?";
-
-  connection.query(queryString, [id], (err, results) => {
-    if (err) {
-      console.log("Faild to the quary " + err);
-      res.statusCode = 500;
-      return;
-    } else {
-      if (results[0].count < 1) {
-        console.log("This Student ID " + id + " Does not exist");
-        res.json({
-          message: "This Student ID " + id + " Does not exist"
-        });
-      } else {
-        const queryString2 = "DELETE FROM Vehicles WHERE VehicleID = ?";
-        connection.query(queryString2, [id], (err, fields) => {
-          if (err) {
-            console.log("Failed second query" + err);
-            res.sendStatus = 500;
-            return;
-          } else {
-            console.log("The Vehicle With ID: " + id + " Has been Delete It.");
-            res.json({
-              message: "The Vehicle With ID: " + id + " Has been Delete It."
-            });
-            res.end();
-          }
-        });
-      }
-    }
-  });
-});
 
 //                                        POST REQUEST TO STORE DATA TO DATABASE FOR RECORD KEEPING
 //===========================================================================================================================
