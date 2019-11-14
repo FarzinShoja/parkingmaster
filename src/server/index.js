@@ -3,12 +3,20 @@ const mysqlconfig = require("./config.json");
 const exp = require("express");
 const app = exp();
 const mySql = require("mysql");
-// const bodyParser = require("body-parser");
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser());
+const bodyParser = require("body-parser");
+
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 
 const hostname = "";
 const port = 3000;
+
+app.listen(port, hostname, () => {
+  console.log("Server started on port " + port);
+});
+
 
 
 // FIX for the CORS ERROR problem....
@@ -22,10 +30,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.listen(port, hostname, () => {
-  console.log("Server started on port " + port);
-});
-
 
 
 
@@ -34,7 +38,7 @@ app.listen(port, hostname, () => {
 const srouter = require('./student/student.js');
 const srouter1 = require('./student/createsudent.js');
 const srouter2 = require('./student/updatestudent.js');
-const srouter3 = require('./student/updatestudent.js');
+const srouter3 = require('./student/deletestudent.js');
 
 app.use(srouter);
 app.use(srouter1);
@@ -55,15 +59,12 @@ app.use(vrouter2);
 app.use(vrouter3);
 
 
+
+
 //**************** Datalog */
 const drouter = require('./datalog/datalog.js');
 
 app.use(drouter);
-
-
-
-
-
 
 
 
