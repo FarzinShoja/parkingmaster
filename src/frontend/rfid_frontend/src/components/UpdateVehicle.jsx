@@ -11,7 +11,7 @@ export default class UpdateVehicle extends React.Component {
       Year: "",
       LicencePlate: "",
       TagNum: "",
-      TagStatus: "",
+      TagStatus: ""
     };
 
     this.handleChangeVehicleID = this.handleChangeVehicleID.bind(this);
@@ -25,19 +25,18 @@ export default class UpdateVehicle extends React.Component {
     this.togglePop = this.togglePopup.bind(this);
   }
 
-  //=========Unclear 
+  //=========Unclear
   componentDidMount() {
-
-  this.setState({
-    VehicleID: this.props.vID,
-    StudentID: this.props.sID,
-    Make: this.props.mK,
-    Model: this.props.mO,
-    Year: this.props.yR,
-    LicencePlate: this.props.lP,
-    TagNum: this.props.tN,
-    TagStatus: this.props.tS
-  });
+    this.setState({
+      VehicleID: this.props.vID,
+      StudentID: this.props.sID,
+      Make: this.props.mK,
+      Model: this.props.mO,
+      Year: this.props.yR,
+      LicencePlate: this.props.lP,
+      TagNum: this.props.tN,
+      TagStatus: this.props.tS
+    });
   }
 
   togglePopup() {
@@ -97,106 +96,118 @@ export default class UpdateVehicle extends React.Component {
   render() {
     return (
       <div className="popup">
-        <div className="popup_inner">
-          Vehicle ID = 
-          <input
-            type="text"
-            name="Vid"
-            value={this.state.VehicleID}
-            onChange={this.handleChangeVehicleID}
+        <div className="popup_inner_V">
+          <div>
+            <label>Vehicle ID :</label>
+            <br />
+            <input
+              type="text"
+              name="Vid"
+              value={this.state.VehicleID}
+              onChange={this.handleChangeVehicleID}
             />
             <br />
-            Student ID = 
+            <label>Student ID :</label>
+            <br />
             <input
-            type="text"
-            name="Sid"
-            value={this.state.StudentID}
-            onChange={this.handleChangeStudentID}
+              type="text"
+              name="Sid"
+              value={this.state.StudentID}
+              onChange={this.handleChangeStudentID}
             />
             <br />
-            Make =
+            <label>Make :</label>
+            <br />
             <input
-            type="text"
-            name="Mk"
-            value={this.state.Make}
-            onChange={this.handleChangeMake}
+              type="text"
+              name="Mk"
+              value={this.state.Make}
+              onChange={this.handleChangeMake}
+            />
+          </div>
+          <div>
+            <label>Model :</label>
+            <br />
+            <input
+              type="text"
+              name="Mo"
+              value={this.state.Model}
+              onChange={this.handleChangeModel}
             />
             <br />
-            Model = 
+            <label>Year :</label>
+            <br />
             <input
-            type="text"
-            name="Mo"
-            value={this.state.Model}
-            onChange={this.handleChangeModel}
+              type="text"
+              name="Yr"
+              value={this.state.Year}
+              onChange={this.handleChangeYear}
             />
             <br />
-            Year = 
+            <label>Licence Plate :</label>
+            <br />
             <input
-            type="text"
-            name="Yr"
-            value={this.state.Year}
-            onChange={this.handleChangeYear}
+              type="text"
+              name="Lp"
+              value={this.state.LicencePlate}
+              onChange={this.handleChangeLicencePlate}
+            />
+          </div>
+          <div>
+            <label>Tag Number :</label>
+            <br />
+            <input
+              type="text"
+              name="Tn"
+              value={this.state.TagNum}
+              onChange={this.handleChangeTagNum}
             />
             <br />
-            Licence Plate =
+            <label>Tag Status :</label>
+            <br />
             <input
-            type="text"
-            name="Lp"
-            value={this.state.LicencePlate}
-            onChange={this.handleChangeLicencePlate}
+              type="text"
+              name="Ts"
+              value={this.state.TagStatus}
+              onChange={this.handleChangeTagStatus}
             />
             <br />
-            Tag Number = 
-            <input
-            type="text"
-            name="Tn"
-            value={this.state.TagNum}
-            onChange={this.handleChangeTagNum}
-            />
-            <br />
-            Tag Status =
-            <input
-            type="text"
-            name="Ts"
-            value={this.state.TagStatus}
-            onChange={this.handleChangeTagStatus}
-            />
             <br />
             <button
+              id="submitBTN"
               onClick={e => {
-
                 fetch("http://localhost:3000/updatevehicle", {
                   method: "PUT",
                   headers: {
-                  Accept: "application/json",
-                  "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                  VehicleID: this.state.VehicleID,
-                  StudentID: this.state.StudentID,
-                  Make: this.state.Make,
-                  Model: this.state.Model,
-                  Year: this.state.Year,
-                  LicencePlate: this.state.LicencePlate,
-                  TagNum: this.state.TagNum,
-                  TagStatus: this.state.TagStatus
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({
+                    VehicleID: this.state.VehicleID,
+                    StudentID: this.state.StudentID,
+                    Make: this.state.Make,
+                    Model: this.state.Model,
+                    Year: this.state.Year,
+                    LicencePlate: this.state.LicencePlate,
+                    TagNum: this.state.TagNum,
+                    TagStatus: this.state.TagStatus
+                  })
                 })
-              })
                   .then(res => res.json())
                   .then(result => {
                     alert(result.message);
                     this.props.reloadTable();
                   });
-                  this.props.closePopup();
+                this.props.closePopup();
               }}
-              >
-                Sumbit Updates
-              </button>
-              <button onClick={this.props.closePopup}
-              >
-                Close
-              </button>
-        </div>    
+            >
+              Submit
+            </button>
+            <button id="closeBTN" onClick={this.props.closePopup}>
+              Close
+            </button>
+          </div>
+        </div>
       </div>
     );
   }

@@ -1,27 +1,26 @@
 import React from "react";
 
+import ReactTable from "react-table";
+import "react-table/react-table.css";
+
 import UpdateVehicle from "./UpdateVehicle";
 
-import ReactTable from "react-table";
-import "react-table/react-table.css"
-
-
-export default class GetAllComponent extends React.Component {
+export default class GetAllVehicles extends React.Component {
   constructor() {
     super();
     this.state = {
-    Vehicle_id: "",
-    student_id: "",
-    Make: "",
-    Model: "",
-    Year: "",
-    LicencePlate: "",
-    TagNum: "",
-    TagStatus: "",
-    fetchedData: [{}],
-    showPopup: false
+      Vehicle_id: "",
+      student_id: "",
+      Make: "",
+      Model: "",
+      Year: "",
+      LicencePlate: "",
+      TagNum: "",
+      TagStatus: "",
+      fetchedData: [{}],
+      showPopup: false
     };
-    this.togglePop= this.togglePopup.bind(this);
+    this.togglePop = this.togglePopup.bind(this);
     this.reloadTable = this.reloadTable.bind(this);
   }
 
@@ -59,14 +58,14 @@ export default class GetAllComponent extends React.Component {
       <React.Fragment>
         <h1> Vehicles</h1>
         <button
-        id="getBtn_v"
-        hidden={false}
-        onClick={e => {
-          this.loadTableData();
-          document.getElementById("tableDiv_v").hidden = false;
-          document.getElementById("closeBtn_v").hidden = false;
-          document.getElementById("getBtn_v").hidden = true;
-        }}
+          id="getBtn_v"
+          hidden={false}
+          onClick={e => {
+            this.loadTableData();
+            document.getElementById("tableDiv_v").hidden = false;
+            document.getElementById("closeBtn_v").hidden = false;
+            document.getElementById("getBtn_v").hidden = true;
+          }}
         >
           Show Vehicle Table
         </button>
@@ -79,13 +78,13 @@ export default class GetAllComponent extends React.Component {
             document.getElementById("closeBtn_v").hidden = true;
             document.getElementById("getBtn_v").hidden = false;
           }}
-          >
-            Close Table
-          </button>
-          <br />
-          <br />
-          <div id="tableDiv_v" hidden={true}>
-            <ReactTable
+        >
+          Close Table
+        </button>
+        <br />
+        <br />
+        <div id="tableDiv_v" hidden={true}>
+          <ReactTable
             data={data}
             columns={[
               {
@@ -105,7 +104,6 @@ export default class GetAllComponent extends React.Component {
                 accessor: "Make",
                 filterable: false,
                 minWidth: 100
-
               },
               {
                 Header: "Model",
@@ -145,10 +143,10 @@ export default class GetAllComponent extends React.Component {
                       <button
                         onClick={e => {
                           this.setState({
-                            Vehicle_id: props.original.VehicleID ,
+                            Vehicle_id: props.original.VehicleID,
                             student_id: props.original.StudentID,
                             Make: props.original.Make,
-                            Model:props.original.Model,
+                            Model: props.original.Model,
                             Year: props.original.Year,
                             LicencePlate: props.original.LicencePlate,
                             TagNum: props.original.TagNum,
@@ -156,11 +154,11 @@ export default class GetAllComponent extends React.Component {
                           });
                           this.togglePop();
                         }}
-                        >
-                          Update
-                        </button>
-                        {this.state.showPopup ? (
-                          <UpdateVehicle
+                      >
+                        Update
+                      </button>
+                      {this.state.showPopup ? (
+                        <UpdateVehicle
                           vID={this.state.Vehicle_id}
                           sID={this.state.student_id}
                           mK={this.state.Make}
@@ -171,39 +169,39 @@ export default class GetAllComponent extends React.Component {
                           tS={this.state.TagStatus}
                           closePopup={this.togglePopup.bind(this)}
                           reloadTable={this.reloadTable.bind(this)}
-                          />
-                        ) : null}
-                        <span> </span>
-                        <button
-                          onClick={ e => {
-                            fetch(
-                              "http://localhost:3000/delete/vehicledata/" +
+                        />
+                      ) : null}
+                      <span> </span>
+                      <button
+                        onClick={e => {
+                          fetch(
+                            "http://localhost:3000/delete/vehicledata/" +
                               props.original.VehicleID,
-                              {
-                                method: "DELETE"
-                              }
-                            )
-                              .then(res => res.json())
-                              .then(result => {
-                                this.reloadTable();
-                                alert(result.message);
-                              });
-                          }}
-                          >
-                            Delete
-                          </button>
-                          </div>
-                         );
-                        }
-                      }
-                    ]}
-                    filterable
-                    loadingText="Loading....."
-                    defaultPageSize={5}
-                    className="-striped -highlight"
-                    />
-                 </div>
-                 </React.Fragment>
+                            {
+                              method: "DELETE"
+                            }
+                          )
+                            .then(res => res.json())
+                            .then(result => {
+                              this.reloadTable();
+                              alert(result.message);
+                            });
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   );
                 }
               }
+            ]}
+            filterable
+            loadingText="Loading....."
+            defaultPageSize={5}
+            className="-striped -highlight"
+          />
+        </div>
+      </React.Fragment>
+    );
+  }
+}
