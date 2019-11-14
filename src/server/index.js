@@ -10,23 +10,18 @@ app.use(bodyParser());
 const hostname = "";
 const port = 3000;
 
-
-
-
 //**************** Student */
 
 //**************** Vehicle */
-const router = require('./Vehicle/vehicles.js');
-const router1 = require('./Vehicle/createVehicles.js');
-const router2 = require('./Vehicle/updatevehicle.js');
-const router3 = require('./Vehicle/deletevehicle');
+const router = require("./Vehicle/vehicles.js");
+const router1 = require("./Vehicle/createVehicles.js");
+const router2 = require("./Vehicle/updatevehicle.js");
+const router3 = require("./Vehicle/deletevehicle");
 
 app.use(router);
 app.use(router1);
 app.use(router2);
 app.use(router3);
-
-
 
 // FIX for the CORS ERROR problem....
 app.use(function(req, res, next) {
@@ -130,8 +125,6 @@ app.get("/students", (req, res) => {
   });
 });
 
-
-
 //Create Simple fetch Request From The Database
 app.get("/datalog", (req, res) => {
   //<---------------------- Edit listenning tag
@@ -150,7 +143,6 @@ app.get("/datalog", (req, res) => {
     res.end();
   });
 });
-
 
 //                                     Insert Student Data
 //=============================================================================================
@@ -334,8 +326,6 @@ app.delete("/delete/studentdata/:StudentID", (req, res) => {
   });
 });
 
-
-
 //                                        POST REQUEST TO STORE DATA TO DATABASE FOR RECORD KEEPING
 //===========================================================================================================================
 app.get("/logtagdata/:scannedTagID_loc", (req, res) => {
@@ -389,7 +379,7 @@ app.get("/logtagdata/:scannedTagID_loc", (req, res) => {
         err => {
           if (err) {
             console.log("Failed at #2 query: " + err);
-            
+
             return;
           } else {
             // this keeps track of the available parking spots
