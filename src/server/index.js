@@ -45,13 +45,11 @@ app.use(srouter1);
 app.use(srouter2);
 app.use(srouter3);
 
-
-
 //**************** Vehicle */
-const vrouter = require('./vehicle/vehicles.js');
-const vrouter1 = require('./vehicle/createVehicles.js');
-const vrouter2 = require('./vehicle/updatevehicle.js');
-const vrouter3 = require('./vehicle/deletevehicle');
+const vrouter = require("./vehicle/vehicles.js");
+const vrouter1 = require("./vehicle/createVehicles.js");
+const vrouter2 = require("./vehicle/updatevehicle.js");
+const vrouter3 = require("./vehicle/deletevehicle");
 
 app.use(vrouter);
 app.use(vrouter1);
@@ -62,7 +60,7 @@ app.use(vrouter3);
 
 
 //**************** Datalog */
-const drouter = require('./datalog/datalog.js');
+const drouter = require("./datalog/datalog.js");
 
 app.use(drouter);
 
