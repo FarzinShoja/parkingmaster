@@ -1,5 +1,7 @@
 import React from "react";
 
+import backendurl from "../config.js";
+
 export default class CreateVehicleComp extends React.Component {
   constructor() {
     super();
@@ -112,7 +114,7 @@ export default class CreateVehicleComp extends React.Component {
         <br></br>
         <button
           onClick={e => {
-            fetch("http://localhost:3000/createvehicle/", {
+            fetch("http://" + backendurl.backend + "/createvehicle/", {
               method: "POST",
               headers: {
                 Accept: "application/json",

@@ -3,6 +3,9 @@ This code allows for the user to enter their information
 */
 import React, { Component } from "react";
 
+import backendurl from "../config.js";
+
+
 class GetTag extends Component {
   constructor() {
     super();
@@ -69,7 +72,7 @@ class GetTag extends Component {
         <button
           onClick={e => {
             fetch(
-              "http://localhost:3000/Vehicles/ByTagNum/" + this.state.userinput,
+              "http://" + backendurl.backend + "/Vehicles/ByTagNum/" + this.state.userinput,
               {
                 method: "GET"
               }

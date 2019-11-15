@@ -1,5 +1,7 @@
 import React from "react";
 
+import backendurl from "../config.js";
+
 export default class SpotCounter extends React.Component {
   constructor() {
     super();
@@ -20,7 +22,7 @@ export default class SpotCounter extends React.Component {
   }
 
   updateCounter() {
-    fetch("http://localhost:3000/parkingDeck_Counter", {
+    fetch("http://" + backendurl.backend + "/parkingDeck_Counter", {
       method: "GET"
     })
       .then(res => res.json())

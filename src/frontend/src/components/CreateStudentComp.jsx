@@ -1,5 +1,8 @@
 import React from "react";
 
+import backendurl from "../config.js";
+
+
 export default class CreateStudentComp extends React.Component {
   constructor() {
     super();
@@ -98,7 +101,7 @@ export default class CreateStudentComp extends React.Component {
         <button
           //Check if user input is not blank
           onClick={e => {
-            fetch("http://localhost:3000/createstudent/", {
+            fetch("http://" + backendurl.backend + "/createstudent/", {
               method: "POST",
               headers: {
                 Accept: "application/json",
