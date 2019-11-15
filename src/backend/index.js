@@ -6,12 +6,17 @@ const https = require('https');
 const fs = require('fs');
 const app = exp();
 const mySql = require("mysql");
-// const bodyParser = require("body-parser");
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser());
+
 
 const hostname = "";
 const port = 3000;
+
+
+
+app = https.createServer({
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.cert')
+},app);
 
 // FIX for the CORS ERROR problem....
 app.use(function(req, res, next) {
@@ -23,11 +28,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   next();
 });
-
-https.createServer({
-  key: fs.readFileSync('server.key'),
-  cert: fs.readFileSync('server.cert')
-},app).listen(port, hostname, () => {
+app.listen(port, hostname, () => {
   console.log("Server started on port " + port);
 });
 
