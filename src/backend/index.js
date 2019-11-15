@@ -11,24 +11,23 @@ const mySql = require("mysql");
 const hostname = "";
 const port = 3000;
 
+// FIX for the CORS ERROR problem....
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+//   next();
+// });
 
+app.use(cors());
 
-app = https.createServer({
+https.createServer({
   key: fs.readFileSync('server.key'),
   cert: fs.readFileSync('server.cert')
-},app);
-
-// FIX for the CORS ERROR problem....
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  next();
-});
-app.listen(port, hostname, () => {
+},app).listen(port, hostname, () => {
   console.log("Server started on port " + port);
 });
 
