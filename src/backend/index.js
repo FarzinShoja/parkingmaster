@@ -2,6 +2,7 @@
 
 const mysqlconfig = require("./config.json");
 const exp = require("express");
+const cors = require('cors');
 const https = require('https');
 const fs = require('fs');
 const app = exp();

@@ -1,6 +1,7 @@
 ////==============================================================
 const mysqlconfig = require("../config.json");
 const exp = require("express");
+const cors = require('cors');
 const router = exp.Router();
 const mySql = require("mysql");
 const bodyParser = require("body-parser");
