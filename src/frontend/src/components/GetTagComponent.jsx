@@ -72,7 +72,7 @@ class GetTag extends Component {
         <button
           onClick={e => {
             fetch(
-              "https://" + backendurl.backend + "/Vehicles/ByTagNum/" + this.state.userinput,
+              backendurl.backend + "/Vehicles/ByTagNum/" + this.state.userinput,
               {
                 method: "GET"
               }

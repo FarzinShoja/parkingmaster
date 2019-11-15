@@ -37,7 +37,7 @@ https.createServer({
 const srouter = require("./student/student.js");
 const srouter1 = require("./student/createsudent.js");
 const srouter2 = require("./student/updatestudent.js");
-const srouter3 = require("./student/updatestudent.js");
+const srouter3 = require("./student/deletestudent.js");
 
 app.use(srouter);
 app.use(srouter1);

@@ -40,7 +40,7 @@ export default class GetAllVehicles extends React.Component {
   }
 
   loadTableData() {
-    fetch("https://" + backendurl.backend + "/Vehicles", {
+    fetch(backendurl.backend + "/Vehicles", {
       method: "GET"
     })
       .then(res => res.json())
@@ -176,7 +176,7 @@ export default class GetAllVehicles extends React.Component {
                       <button
                         onClick={e => {
                           fetch(
-                            "https://" + backendurl.backend + "/delete/vehicledata/" +
+                            backendurl.backend + "/delete/vehicledata/" +
                               props.original.VehicleID,
                             {
                               method: "DELETE"

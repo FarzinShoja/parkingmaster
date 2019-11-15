@@ -100,7 +100,7 @@ export default class UpdateStudent extends React.Component {
                   v_holder = this.state.VehicleID;
                 }
 
-                fetch("https://" + backendurl.backend + "/updatestudent/", {
+                fetch(backendurl.backend + "/updatestudent/", {
                   method: "PUT",
                   headers: {
                     Accept: "application/json",
