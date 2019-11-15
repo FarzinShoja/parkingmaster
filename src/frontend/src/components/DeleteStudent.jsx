@@ -27,13 +27,17 @@ export default class DeleteStudent extends React.Component {
           value={this.state.student_id}
           onChange={this.handleChangeStudentid}
         />
-        <span>     </span>
+        <br />
         <button
           //Check if user input is not blank
           onClick={e => {
-            fetch("http://localhost:3000/delete/studentdata/" + this.state.student_id, {
-              method: "DELETE",
-            })
+            fetch(
+              "http://localhost:3000/delete/studentdata/" +
+                this.state.student_id,
+              {
+                method: "DELETE"
+              }
+            )
               .then(res => res.json())
               .then(result => {
                 alert(result.message);
