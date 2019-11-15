@@ -3,8 +3,8 @@
 const mysqlconfig = require("./config.json");
 const exp = require("express");
 const cors = require('cors');
-const https = require('https');
-const fs = require('fs');
+// const https = require('https');
+// const fs = require('fs');
 const app = exp();
 const mySql = require("mysql");
 
@@ -25,10 +25,11 @@ const port = 3000;
 
 app.use(cors());
 
-https.createServer({
-  key: fs.readFileSync('server.key'),
-  cert: fs.readFileSync('server.cert')
-},app).listen(port, hostname, () => {
+// https.createServer({
+//   key: fs.readFileSync('server.key'),
+//   cert: fs.readFileSync('server.cert')
+// },
+app.listen(port, hostname, () => {
   console.log("Server started on port " + port);
 });
 
@@ -37,7 +38,7 @@ https.createServer({
 const srouter = require("./student/student.js");
 const srouter1 = require("./student/createsudent.js");
 const srouter2 = require("./student/updatestudent.js");
-const srouter3 = require("./student/updatestudent.js");
+const srouter3 = require("./student/deletestudent.js");
 
 app.use(srouter);
 app.use(srouter1);

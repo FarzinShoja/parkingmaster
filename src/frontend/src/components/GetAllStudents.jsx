@@ -35,7 +35,7 @@ export default class GetAllStudents extends React.Component {
   }
 
   loadTableData() {
-    fetch("https://" + backendurl.backend + "/students", {
+    fetch(backendurl.backend + "/students", {
       method: "GET"
     })
       .then(res => res.json())
@@ -136,7 +136,7 @@ export default class GetAllStudents extends React.Component {
                       <button
                         onClick={e => {
                           fetch(
-                            "https://" + backendurl.backend + "/delete/studentdata/" +
+                            backendurl.backend + "/delete/studentdata/" +
                               props.original.StudentID,
                             {
                               method: "DELETE"

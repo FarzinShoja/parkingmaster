@@ -33,7 +33,7 @@ export default class DeleteVehicle extends React.Component {
         <button
           //Check if user input is not blank
           onClick={e => {
-            fetch("https://" + backendurl.backend + "/delete/vehicledata/" + this.state.Vehicle_id, {
+            fetch(backendurl.backend + "/delete/vehicledata/" + this.state.Vehicle_id, {
               method: "DELETE",
             })
               .then(res => res.json())

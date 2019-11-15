@@ -53,7 +53,7 @@ export default class GetLog extends React.Component {
         <h1> Get Log Data</h1>
         <button
           onClick={e => {
-            fetch("https://" + backendurl.backend + "/datalog", {
+            fetch(backendurl.backend + "/datalog", {
               method: "GET"
             })
               .then(res => res.json())
