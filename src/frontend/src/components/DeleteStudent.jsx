@@ -1,5 +1,7 @@
 import React from "react";
 
+import backendurl from "../config.js";
+
 export default class DeleteStudent extends React.Component {
   constructor() {
     super();
@@ -32,7 +34,7 @@ export default class DeleteStudent extends React.Component {
           //Check if user input is not blank
           onClick={e => {
             fetch(
-              "http://localhost:3000/delete/studentdata/" +
+              "https://" + backendurl.backend + "/delete/studentdata/" +
                 this.state.student_id,
               {
                 method: "DELETE"

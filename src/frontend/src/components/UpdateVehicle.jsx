@@ -1,5 +1,8 @@
 import React from "react";
 
+import backendurl from "../config.js";
+
+
 export default class UpdateVehicle extends React.Component {
   constructor() {
     super();
@@ -176,7 +179,7 @@ export default class UpdateVehicle extends React.Component {
             <button
               id="submitBTN"
               onClick={e => {
-                fetch("http://localhost:3000/updatevehicle", {
+                fetch("https://" + backendurl.backend + "/updatevehicle", {
                   method: "PUT",
                   headers: {
                     Accept: "application/json",

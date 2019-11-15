@@ -4,6 +4,8 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 
 import UpdateVehicle from "./UpdateVehicle";
+import backendurl from "../config.js";
+
 
 export default class GetAllVehicles extends React.Component {
   constructor() {
@@ -38,7 +40,7 @@ export default class GetAllVehicles extends React.Component {
   }
 
   loadTableData() {
-    fetch("http://localhost:3000/Vehicles", {
+    fetch("https://" + backendurl.backend + "/Vehicles", {
       method: "GET"
     })
       .then(res => res.json())
@@ -174,7 +176,7 @@ export default class GetAllVehicles extends React.Component {
                       <button
                         onClick={e => {
                           fetch(
-                            "http://localhost:3000/delete/vehicledata/" +
+                            "https://" + backendurl.backend + "/delete/vehicledata/" +
                               props.original.VehicleID,
                             {
                               method: "DELETE"

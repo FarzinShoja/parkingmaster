@@ -1,5 +1,9 @@
 import React from "react";
 
+import backendurl from "../config.js";
+
+
+
 export default class GetLog extends React.Component {
   constructor() {
     super();
@@ -49,7 +53,7 @@ export default class GetLog extends React.Component {
         <h1> Get Log Data</h1>
         <button
           onClick={e => {
-            fetch("http://localhost:3000/datalog", {
+            fetch("https://" + backendurl.backend + "/datalog", {
               method: "GET"
             })
               .then(res => res.json())

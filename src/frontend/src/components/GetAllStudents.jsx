@@ -4,6 +4,7 @@ import ReactTable from "react-table";
 import "react-table/react-table.css";
 
 import UpdateStudent from "./UpdateStudents";
+import backendurl from "../config.js";
 
 export default class GetAllStudents extends React.Component {
   constructor() {
@@ -34,7 +35,7 @@ export default class GetAllStudents extends React.Component {
   }
 
   loadTableData() {
-    fetch("http://localhost:3000/students", {
+    fetch("https://" + backendurl.backend + "/students", {
       method: "GET"
     })
       .then(res => res.json())
@@ -135,7 +136,7 @@ export default class GetAllStudents extends React.Component {
                       <button
                         onClick={e => {
                           fetch(
-                            "http://localhost:3000/delete/studentdata/" +
+                            "https://" + backendurl.backend + "/delete/studentdata/" +
                               props.original.StudentID,
                             {
                               method: "DELETE"

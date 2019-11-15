@@ -1,5 +1,8 @@
 import React from "react";
 
+import backendurl from "../config.js";
+
+
 export default class UpdateStudent extends React.Component {
   constructor() {
     super();
@@ -97,7 +100,7 @@ export default class UpdateStudent extends React.Component {
                   v_holder = this.state.VehicleID;
                 }
 
-                fetch("http://localhost:3000/updatestudent/", {
+                fetch("https://" + backendurl.backend + "/updatestudent/", {
                   method: "PUT",
                   headers: {
                     Accept: "application/json",
