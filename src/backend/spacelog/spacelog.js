@@ -1,6 +1,7 @@
 ////==============================================================
 const mysqlconfig = require("../config.json");
 const exp = require("express");
+const cors = require('cors');
 const router = exp.Router();
 const mySql = require("mysql");
 const bodyParser = require("body-parser");
@@ -9,15 +10,8 @@ router.use(bodyParser.json());
 
 
 // FIX for the CORS ERROR problem....
-router.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  next();
-});
+router.use(cors());
+
 
 
 router.get("/spacecounter/:id", (req, res) => {
