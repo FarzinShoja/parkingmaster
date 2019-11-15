@@ -1,6 +1,9 @@
 //==============================================================
+
 const mysqlconfig = require("./config.json");
 const exp = require("express");
+const https = require('https');
+const fs = require('fs');
 const app = exp();
 const mySql = require("mysql");
 // const bodyParser = require("body-parser");
@@ -21,7 +24,10 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.listen(port, hostname, () => {
+https.createServer({
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.cert')
+},app).listen(port, hostname, () => {
   console.log("Server started on port " + port);
 });
 
