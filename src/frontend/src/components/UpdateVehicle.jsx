@@ -179,7 +179,7 @@ export default class UpdateVehicle extends React.Component {
             <button
               id="submitBTN"
               onClick={e => {
-                fetch("http://" + backendurl.backend + "/updatevehicle", {
+                fetch("https://" + backendurl.backend + "/updatevehicle", {
                   method: "PUT",
                   headers: {
                     Accept: "application/json",

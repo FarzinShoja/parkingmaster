@@ -114,7 +114,7 @@ export default class CreateVehicleComp extends React.Component {
         <br></br>
         <button
           onClick={e => {
-            fetch("http://" + backendurl.backend + "/createvehicle/", {
+            fetch("https://" + backendurl.backend + "/createvehicle/", {
               method: "POST",
               headers: {
                 Accept: "application/json",

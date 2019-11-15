@@ -22,7 +22,7 @@ export default class SpotCounter extends React.Component {
   }
 
   updateCounter() {
-    fetch("http://" + backendurl.backend + "/parkingDeck_Counter", {
+    fetch("https://" + backendurl.backend + "/parkingDeck_Counter", {
       method: "GET"
     })
       .then(res => res.json())

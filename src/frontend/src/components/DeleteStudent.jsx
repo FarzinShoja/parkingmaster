@@ -34,7 +34,7 @@ export default class DeleteStudent extends React.Component {
           //Check if user input is not blank
           onClick={e => {
             fetch(
-              "http://" + backendurl.backend + "/delete/studentdata/" +
+              "https://" + backendurl.backend + "/delete/studentdata/" +
                 this.state.student_id,
               {
                 method: "DELETE"

@@ -101,7 +101,7 @@ export default class CreateStudentComp extends React.Component {
         <button
           //Check if user input is not blank
           onClick={e => {
-            fetch("http://" + backendurl.backend + "/createstudent/", {
+            fetch("https://" + backendurl.backend + "/createstudent/", {
               method: "POST",
               headers: {
                 Accept: "application/json",
