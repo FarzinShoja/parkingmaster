@@ -176,7 +176,7 @@ export default class GetAllVehicles extends React.Component {
                       <button
                         onClick={e => {
                           fetch(
-                            "http://" + backendurl.backend + "/delete/vehicledata/" +
+                            "https://" + backendurl.backend + "/delete/vehicledata/" +
                               props.original.VehicleID,
                             {
                               method: "DELETE"
