@@ -40,7 +40,7 @@ export default class GetAllVehicles extends React.Component {
   }
 
   loadTableData() {
-    fetch("http://" + backendurl.backend + "/Vehicles", {
+    fetch("https://" + backendurl.backend + "/Vehicles", {
       method: "GET"
     })
       .then(res => res.json())
