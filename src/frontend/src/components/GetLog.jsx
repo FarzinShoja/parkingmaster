@@ -49,13 +49,20 @@ export default class GetLog extends React.Component {
       });
   }
 
+  componentDidMount() {
+    this.loadTableData();
+    this.interval = setInterval(() => {
+      this.loadTableData();
+    }, 50000);
+  }
+
   // =============
   render() {
     const data = this.state.fetchedData;
 
     return(
       <React.Fragment>
-        <h1>Data Log</h1>
+        {/* <h1>Data Log</h1>
         <button
         id="getBtn_d"
         hidden={false}
@@ -84,7 +91,7 @@ export default class GetLog extends React.Component {
           <br />
           <div id="tableDiv_d" 
           hidden={true}
-          >
+          > */}
           <ReactTable
             data={data}
             columns={[
@@ -131,7 +138,7 @@ export default class GetLog extends React.Component {
             defaultPageSize={5}
             className="-striped -highlight"
             />
-          </div>
+          {/* </div> */}
       </React.Fragment>
     )
   }

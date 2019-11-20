@@ -1,18 +1,20 @@
 import React, { Component } from "react";
 // import GetTag from "./components/GetTagComponent.jsx";
-import GetAllVehicles from "./components/GetAllVehicles.jsx";
-import CreateStudentComp from "./components/CreateStudentComp.jsx";
-import CreateVehicleComp from "./components/CreateVehicleComp.jsx";
-import SpotCounter from "./components/Counter.jsx";
+// import GetAllVehicles from "./components/GetAllVehicles.jsx";
+// import CreateStudentComp from "./components/CreateStudentComp.jsx";
+// import CreateVehicleComp from "./components/CreateVehicleComp.jsx";
+// import SpotCounter from "./components/Counter.jsx";
+import MainPage from "./components/MainPage.jsx";
 //import "./App.css";
-import GetLog from "./components/GetLog.jsx";
-import GetAllStudents from "./components/GetAllStudents.jsx";
+// import GetLog from "./components/GetLog.jsx";
+// import GetAllStudents from "./components/GetAllStudents.jsx";
 
 class App extends Component {
   render() {
     return (
       <div>
-        <SpotCounter />
+        <MainPage />
+        {/* <SpotCounter />
         <hr />
         <GetLog></GetLog>
         <hr></hr>
@@ -23,7 +25,7 @@ class App extends Component {
         <CreateStudentComp />
         <hr />
         <CreateVehicleComp />
-        <hr />
+        <hr /> */}
       </div>
     );
   }
