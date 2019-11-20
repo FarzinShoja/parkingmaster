@@ -78,7 +78,7 @@ export default function IconLabelTabs() {
         onChange={handleChange}
         variant="fullWidth"
         TabIndicatorProps= {{style: {background:'green'}}}
-        textColor="white"
+        textColor="inherit"
         aria-label="icon label tabs example"
         centered
       >
