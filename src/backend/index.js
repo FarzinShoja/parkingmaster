@@ -25,13 +25,19 @@ const port = 3000;
 
 app.use(cors());
 
-// https.createServer({
-//   key: fs.readFileSync('server.key'),
-//   cert: fs.readFileSync('server.cert')
-// },
+//Http
 app.listen(port, hostname, () => {
   console.log("Server started on port " + port);
 });
+
+//Https 
+// https.createServer({
+//   key: fs.readFileSync('server.key'),
+//   cert: fs.readFileSync('server.cert')
+// },app).listen(port, hostname, () => {
+//   console.log("Server started on port " + port);
+// });
+
 
 //**************** Student */
 
