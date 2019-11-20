@@ -153,7 +153,6 @@ export default class GetAllVehicles extends React.Component {
                 fontSize="large" 
                 color="inherit" 
                 onClick={e => {
-                  this.togglePop();
                   alert("hello");
                 }} /></div>,
                 filterable: false,
