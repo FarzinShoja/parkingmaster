@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/parkingmaster/static/css/main.bb9ac4a7.chunk.css",
-    "main.js": "/parkingmaster/static/js/main.6a8f9e7b.chunk.js",
-    "main.js.map": "/parkingmaster/static/js/main.6a8f9e7b.chunk.js.map",
+    "main.js": "/parkingmaster/static/js/main.96bbb00d.chunk.js",
+    "main.js.map": "/parkingmaster/static/js/main.96bbb00d.chunk.js.map",
     "runtime-main.js": "/parkingmaster/static/js/runtime-main.6e08a334.js",
     "runtime-main.js.map": "/parkingmaster/static/js/runtime-main.6e08a334.js.map",
     "static/css/2.cc82cc7e.chunk.css": "/parkingmaster/static/css/2.cc82cc7e.chunk.css",
     "static/js/2.13f46d96.chunk.js": "/parkingmaster/static/js/2.13f46d96.chunk.js",
     "static/js/2.13f46d96.chunk.js.map": "/parkingmaster/static/js/2.13f46d96.chunk.js.map",
     "index.html": "/parkingmaster/index.html",
-    "precache-manifest.1238ac7e064e1ae427927fb31879a129.js": "/parkingmaster/precache-manifest.1238ac7e064e1ae427927fb31879a129.js",
+    "precache-manifest.7a09270469508de499d3187941dc8adf.js": "/parkingmaster/precache-manifest.7a09270469508de499d3187941dc8adf.js",
     "service-worker.js": "/parkingmaster/service-worker.js",
     "static/css/2.cc82cc7e.chunk.css.map": "/parkingmaster/static/css/2.cc82cc7e.chunk.css.map",
     "static/css/main.bb9ac4a7.chunk.css.map": "/parkingmaster/static/css/main.bb9ac4a7.chunk.css.map"
@@ -19,6 +19,6 @@
     "static/css/2.cc82cc7e.chunk.css",
     "static/js/2.13f46d96.chunk.js",
     "static/css/main.bb9ac4a7.chunk.css",
-    "static/js/main.6a8f9e7b.chunk.js"
+    "static/js/main.96bbb00d.chunk.js"
   ]
 }
