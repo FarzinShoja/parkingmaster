@@ -126,9 +126,9 @@ select {
 
 .popup_inner_V input[type="text"],
 select {
-  width: 90%;
+  width: 65%;
   height: 30px;
-  padding: 12px 20px;
+  padding: 10px 10px;
   margin: 8px 0;
   display: inline-block;
   border: 1px solid #ccc;
@@ -145,7 +145,7 @@ select {
 
 .popup_inner_V div {
   margin: auto;
-  flex: 4;
+  flex: 10;
 }
 
 .popup_inner_V button {
@@ -162,4 +162,10 @@ select {
 
 .popup_inner_V #submitBTN:hover {
   background-color: #6dff0593;
+}
+
+/* This removes the blue border around boxes*/
+:focus {
+  outline: 0 !important;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0) !important;
 }

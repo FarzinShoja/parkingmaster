@@ -1,5 +1,9 @@
 import React from "react";
 
+
+import ReactTable from "react-table";
+import "react-table/react-table.css";
+
 import backendurl from "../config.js";
 
 
@@ -8,69 +12,134 @@ export default class GetLog extends React.Component {
   constructor() {
     super();
     this.state = {
-      getlog_data: ""
+      LogID: "",
+      VehicleID: "",
+      StudentID: "",
+      Location: "",
+      DateLog: "",
+      TagStatus: "",
+      fetchedData: [{}],
+      showPopup: false
     };
+    this.togglePop = this.togglePopup.bind(this);
+    this.reloadTable = this.reloadTable.bind(this);
   }
 
-  // ==================================== This will create a table based on JSON response change the STATE of the div ===================
-  convertJSON2Table4data1(jData) {
-    var col = [];
-    for (let x = 0; x < jData.length; x++) {
-      for (let key in jData[x]) {
-        if (col.indexOf(key) === -1) {
-          col.push(key);
-        }
-      }
-    }
-
-    var table = document.createElement("table");
-
-    var tr = table.insertRow(-1);
-    for (let x = 0; x < col.length; x++) {
-      var th = document.createElement("th");
-      th.innerHTML = col[x];
-      tr.appendChild(th);
-    }
-
-    for (let x = 0; x < jData.length; x++) {
-      tr = table.insertRow(-1);
-
-      for (let y = 0; y < col.length; y++) {
-        var tabCell = tr.insertCell(-1);
-        tabCell.innerHTML = jData[x][col[y]];
-      }
-    }
-
+  togglePopup() {
     this.setState({
-      getlog_data: table.outerHTML
+      showPopup: !this.state.showPopup
     });
   }
+  reloadTable() {
+    this.setState({
+      fetchedData: [{}]
+    });
+    this.loadTableData();
+  }
 
-  // ==========================================================================================================================================
+  loadTableData() {
+    fetch(backendurl.backend + "/datalog", {
+      method: "GET"
+    })
+      .then(res => res.json())
+      .then(result => {
+        this.setState({
+          fetchedData: result
+        });
+      });
+  }
+
+  componentDidMount() {
+    this.loadTableData();
+    this.interval = setInterval(() => {
+      this.loadTableData();
+    }, 50000);
+  }
+
+  // =============
   render() {
-    return (
+    const data = this.state.fetchedData;
+
+    return(
       <React.Fragment>
-        <h1> Get Log Data</h1>
+        {/* <h1>Data Log</h1>
         <button
-          onClick={e => {
-            fetch(backendurl.backend + "/datalog", {
-              method: "GET"
-            })
-              .then(res => res.json())
-              .then(result => {
-                this.convertJSON2Table4data1(result);
-              });
-          }}
+        id="getBtn_d"
+        hidden={false}
+        onClick={e => {
+          this.loadTableData();
+          document.getElementById("tableDiv_d").hidden = false;
+          document.getElementById("closeBtn_d").hidden = false;
+          document.getElementById("getBtn_d").hidden = true;
+        }}
         >
-          GET ALL
+          Show Data Log Table
         </button>
-        <br />
-        <br />
-        <div
-          className="data1"
-          dangerouslySetInnerHTML={{ __html: this.state.getlog_data }}
-        ></div>
+        <button
+          id="closeBtn_d"
+          hidden={true}
+          onClick={e => {
+            this.loadTableData();
+            document.getElementById("tableDiv_d").hidden = true;
+            document.getElementById("closeBtn_d").hidden = true;
+            document.getElementById("getBtn_d").hidden = false;
+          }}
+          >
+            Close Table
+          </button>
+          <br />
+          <br />
+          <div id="tableDiv_d" 
+          hidden={true}
+          > */}
+          <ReactTable
+            data={data}
+            columns={[
+              {
+                Header: "Student ID",
+                accessor: "StudentID",
+                filterable: true,
+                PivotValue: ({ value }) => (
+                  <span style={{ color: "darkgreen" }}>{value}</span>
+                ),
+                minWidth: 100
+              },
+              {
+                Header: "Vehicle ID",
+                accessor: "VehicleID",
+                filterable: true,
+                minWidth: 100,
+                PivotValue: ({ value }) => (
+                <span style={{ color: "darkred" }}>{value}</span>
+                )
+              },
+              {
+                Header: "Location",
+                accessor: "Location",
+                filterable: false,
+                minWidth: 100
+              },
+              {
+                Header: "Date Log",
+                accessor: "DateLog",
+                filterable: false,
+                minWidth: 100
+              },
+              {
+                Header: "Tag Status",
+                accessor: "TagStatus",
+                filterable: false,
+                minWidth: 100
+              },
+            ]}
+            filterable
+            //pivotBy={["StudentID", "VehicleID", "Location", "DateLog", "TagStatus"]}
+            loadingText="Loading....."
+            defaultPageSize={5}
+            className="-striped -highlight"
+            />
+          {/* </div> */}
       </React.Fragment>
-    );
+    )
   }
 }

@@ -1,5 +1,11 @@
 import React from "react";
 
+//Icon
+import PostAddIcon from '@material-ui/icons/PostAdd';
+import UpdateIcon from '@material-ui/icons/Update';
+import DeleteIcon from '@material-ui/icons/Delete';
+
+
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 
@@ -51,13 +57,20 @@ export default class GetAllVehicles extends React.Component {
       });
   }
 
+  componentDidMount() {
+    this.loadTableData();
+    this.interval = setInterval(() => {
+      this.loadTableData();
+    }, 50000);
+  }
+
   // =============
   render() {
     const data = this.state.fetchedData;
 
     return (
       <React.Fragment>
-        <h1> Vehicles</h1>
+        {/* <h1> Vehicles</h1>
         <button
           id="getBtn_v"
           hidden={false}
@@ -84,7 +97,7 @@ export default class GetAllVehicles extends React.Component {
         </button>
         <br />
         <br />
-        <div id="tableDiv_v" hidden={true}>
+        <div id="tableDiv_v" hidden={true}> */}
           <ReactTable
             data={data}
             columns={[
@@ -136,12 +149,20 @@ export default class GetAllVehicles extends React.Component {
                 maxWidth: 100
               },
               {
-                Header: "Actions",
+                Header: <div>  Actions <span /> <PostAddIcon 
+                fontSize="large" 
+                color="inherit" 
+                onClick={e => {
+                  this.togglePop();
+                  alert("hello");
+                }} /></div>,
                 filterable: false,
                 Cell: props => {
                   return (
                     <div>
-                      <button
+                    <UpdateIcon 
+                    fontSize="large" 
+                    color= "inherit"
                         onClick={e => {
                           this.setState({
                             Vehicle_id: props.original.VehicleID,
@@ -155,9 +176,7 @@ export default class GetAllVehicles extends React.Component {
                           });
                           this.togglePop();
                         }}
-                      >
-                        Update
-                      </button>
+                      />
                       {this.state.showPopup ? (
                         <UpdateVehicle
                           vID={this.state.Vehicle_id}
@@ -173,7 +192,9 @@ export default class GetAllVehicles extends React.Component {
                         />
                       ) : null}
                       <span> </span>
-                      <button
+                      <DeleteIcon
+                      fontSize="large" 
+                      color="error" 
                         onClick={e => {
                           fetch(
                             backendurl.backend + "/delete/vehicledata/" +
@@ -188,9 +209,7 @@ export default class GetAllVehicles extends React.Component {
                               alert(result.message);
                             });
                         }}
-                      >
-                        Delete
-                      </button>
+                        />
                     </div>
                   );
                 }
@@ -198,10 +217,10 @@ export default class GetAllVehicles extends React.Component {
             ]}
             filterable
             loadingText="Loading....."
-            defaultPageSize={5}
+            defaultPageSize={7}
             className="-striped -highlight"
           />
-        </div>
+        {/* </div> */}
       </React.Fragment>
     );
   }

@@ -1,10 +1,18 @@
 import React from "react";
 
+
+//Icon
+import PostAddIcon from '@material-ui/icons/PostAdd';
+import UpdateIcon from '@material-ui/icons/Update';
+import DeleteIcon from '@material-ui/icons/Delete';
+
 import ReactTable from "react-table";
 import "react-table/react-table.css";
 
 import UpdateStudent from "./UpdateStudents";
+//import CreateStudent from "./creatstudentv2.jsx";
 import backendurl from "../config.js";
+
 
 export default class GetAllStudents extends React.Component {
   constructor() {
@@ -46,13 +54,20 @@ export default class GetAllStudents extends React.Component {
       });
   }
 
+  componentDidMount() {
+    this.loadTableData();
+    this.interval = setInterval(() => {
+      this.loadTableData();
+    }, 50000);
+  }
+
   // ==========================================================================================================================================
   render() {
     const data = this.state.fetchedData;
 
     return (
       <React.Fragment>
-        <h1> Students</h1>
+        {/* <h1> Students</h1>
         <button
           id="getBtn_s"
           hidden={false}
@@ -78,12 +93,12 @@ export default class GetAllStudents extends React.Component {
         </button>
         <br />
         <br />
-        <div id="tableDiv_s" hidden={true}>
+        <div id="tableDiv_s" hidden={true}> */}
           <ReactTable
             data={data}
             columns={[
               {
-                //Create Filter by Selecting True
+                //Create Filter by Selecting Tru
                 Header: "Student ID",
                 accessor: "StudentID",
                 filterable: true
@@ -104,12 +119,20 @@ export default class GetAllStudents extends React.Component {
                 filterable: true
               },
               {
-                Header: "Actions",
+                Header: <div>  Actions <span /> <PostAddIcon 
+                fontSize="large" 
+                color="inherit" 
+                onClick={e => {
+                  this.togglePop();
+                  alert("hello");
+                }} /></div>,
                 filterable: false,
                 Cell: props => {
                   return (
-                    <div>
-                      <button
+                      <div>
+                      <UpdateIcon 
+                      fontSize="large" 
+                      color= "inherit"
                         onClick={e => {
                           this.setState({
                             student_id: props.original.StudentID,
@@ -119,9 +142,7 @@ export default class GetAllStudents extends React.Component {
                           });
                           this.togglePop();
                         }}
-                      >
-                        Update
-                      </button>
+                      />
                       {this.state.showPopup ? (
                         <UpdateStudent
                           sID={this.state.student_id}
@@ -133,7 +154,9 @@ export default class GetAllStudents extends React.Component {
                         />
                       ) : null}
                       <span> </span>
-                      <button
+                      <DeleteIcon
+                      fontSize="large" 
+                      color="error" 
                         onClick={e => {
                           fetch(
                             backendurl.backend + "/delete/studentdata/" +
@@ -148,9 +171,7 @@ export default class GetAllStudents extends React.Component {
                               alert(result.message);
                             });
                         }}
-                      >
-                        Delete
-                      </button>
+                      />
                     </div>
                   );
                 }
@@ -158,10 +179,10 @@ export default class GetAllStudents extends React.Component {
             ]}
             filterable
             loadingText="Loading....."
-            defaultPageSize={10}
+            defaultPageSize={5}
             className="-striped -highlight"
           />
-        </div>
+        {/* </div> */}
       </React.Fragment>
     );
   }
