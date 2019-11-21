@@ -76,7 +76,7 @@ router.get("/datalog", (req, res) => {
   
         //  Current Date and Formatting it
         let dt = new Date();
-        dt.toISOString().split("T")[0] + " " + dt.toTimeString().split(" ")[0];
+        dt.toISOString().split(" T ")[0] + " " + dt.toTimeString().split(" ")[0];
   
         // Grabs the data needed from the database to store locally
         const dataHolder = rows.map(row => {
