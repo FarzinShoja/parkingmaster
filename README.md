@@ -22,9 +22,9 @@ This project is a new way of parking management. We wish to create an applicatio
 4.	Cengiz Gunay
 
 # Features
-•	Allows the user to view the data log of every student and vehicle
-•	Create a new student and/or vehicle to the data log
-•	Update and Delete student info
+•	Allows the user to view the data log of every student and vehicle</br>
+•	Create a new student and/or vehicle to the data log</br>
+•	Update and Delete student info</br>
 •	Update and Delete Vehicle info
 
 # Other Comunication Tools
@@ -39,11 +39,11 @@ Installation:
 •	Frontend: Before running the Frontend, you have to first run “npm install react-table”. Once the installation is completed. Type “npm start” into the command prompt.
 
 # Links:
-Source Code: https://github.com/FarzinShoja/parkingmaster.git
-Issue and Tasks: https://www.meistertask.com/app/project/yLiDEGWr/rfid-project
+Source Code: https://github.com/FarzinShoja/parkingmaster.git</br>
+Issue and Tasks: https://www.meistertask.com/app/project/yLiDEGWr/rfid-project</br>
 GitHub Pages: https://farzinshoja.github.io/parkingmaster/
 
 # License:
-License: [Google Doc](https://drive.google.com/open?id=1ODW8hyywZGsqMhqJxkZ5Qa16aZtbf3Qt).
+License: [PDF](https://drive.google.com/open?id=1ODW8hyywZGsqMhqJxkZ5Qa16aZtbf3Qt).
 
 
