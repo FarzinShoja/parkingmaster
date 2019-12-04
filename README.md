@@ -44,6 +44,6 @@ Issue and Tasks: https://www.meistertask.com/app/project/yLiDEGWr/rfid-project
 GitHub Pages: https://farzinshoja.github.io/parkingmaster/
 
 # License:
-License
+License: [Google Doc](https://drive.google.com/open?id=1ODW8hyywZGsqMhqJxkZ5Qa16aZtbf3Qt).
 
 
