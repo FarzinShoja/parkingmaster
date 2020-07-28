@@ -2,7 +2,7 @@
   <a href="https://">
     <img
       alt="Parking Master"
-      src="src/assets/ParkingMasterLogo.png"
+      src="src/assets/ParkingMasterLogoV2.png"
       width="400"
     />
   </a>
@@ -45,5 +45,3 @@ GitHub Pages: https://farzinshoja.github.io/parkingmaster/
 
 # License:
 License: [PDF](https://drive.google.com/open?id=1ODW8hyywZGsqMhqJxkZ5Qa16aZtbf3Qt).
-
-
