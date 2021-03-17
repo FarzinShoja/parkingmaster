@@ -10,7 +10,7 @@ const mySql = require("mysql");
 
 
 const hostname = "";
-const port = 3000;
+const port = 5000;
 
 // FIX for the CORS ERROR problem....
 // app.use(function(req, res, next) {
